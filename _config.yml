@@ -3,11 +3,11 @@
 # Site wide configuration
 ####################################
 #
-title: Leonids
+title: Attitude Extraction Advances
 email:
 description: A simple and awesome blog theme powered by jekyll.
 url: # the base hostname & protocol for your site
-keywords: ["blog", "jekyll"]
+keywords: ["sentiment analysis", "relation extraction", "machine learning"]
 
 #
 ###################################
@@ -33,10 +33,10 @@ kramdown:
 ####################################
 #
 owner:
-  name: Leonids
-  avatar: leonids-logo.png
-  job: "A jekyll theme"
-  bio: "A simple and awesome blog theme powered by jekyll."
+  name: awesome relation extraction blog
+  avatar: personal-logo.png
+  job: "awesome relation extraction notes"
+  bio: ""
   email:
   disqus-shortname:
   twitter: #username
@@ -50,7 +50,7 @@ owner:
   bing-verify:
   github: #username
   gitlab: #username
-  stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
+  stackoverflow: #username
   linkedin: #username
   skype: #username
   xing: #username
