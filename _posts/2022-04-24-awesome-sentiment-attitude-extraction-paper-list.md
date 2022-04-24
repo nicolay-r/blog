@@ -3,12 +3,10 @@ layout: post
 title: "Transformer Prompt-Based tunnings for Sentiment Attitude Extraction"
 description: "Transformer Prompt-Based tunnings for Sentiment Attitude Extraction"
 category: POST
-image:
-    feature: https://github.com/nicolay-r/awesome-sentiment-attitude-extraction/raw/main/logo.png
-    credit: Nicolay Rusnachenko
-    creditlink: https://nicolay-r.github.io/
 tags: [Sentiment Analysis, Relation Extraction, Awesome Repository]
 ---
+
+![alt text](https://github.com/nicolay-r/awesome-sentiment-attitude-extraction/raw/main/logo.png)
 
 During the last few years the importance of a quick transformer tunnings for downstream tasks become even more demanded.
 Since such pretrained states might be treated as few shot learners makes them even more attractive for low resource domain tasks.
