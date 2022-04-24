@@ -6,8 +6,7 @@
 title: Attitude Extraction Advances
 email:
 description: A simple and awesome blog theme powered by jekyll.
-url: https://nicolay-r.github.io # the base hostname & protocol for your site
-baseurl: /blog
+url: https://nicolay-r.github.io/blog # the base hostname & protocol for your site
 keywords: ["sentiment analysis", "relation extraction", "machine learning"]
 
 #
