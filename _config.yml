@@ -33,7 +33,7 @@ kramdown:
 ####################################
 #
 owner:
-  name: awesome relation extraction blog
+  name: blog
   avatar: personal-logo.png
   job: "awesome relation extraction notes"
   bio: ""
