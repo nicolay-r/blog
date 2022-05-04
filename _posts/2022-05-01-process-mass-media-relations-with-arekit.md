@@ -4,6 +4,7 @@ title: "Process Mass-Media relations for Language Models with AREkit"
 description: "Process Mass-Media relations for Language Models with AREkit"
 category: POST
 tags: [Relation Extraction, AREkit, Language Models, BERT, tutorials]
+comments: true
 ---
 
 ![image]({{site.url}}/img/arekit_for_mass_media.png)
