@@ -6,7 +6,7 @@ category: POST
 tags: [Relation Extraction, AREkit, Language Models, BERT, tutorials]
 ---
 
-![alt text](/img/arekit_for_mass_media.png)
+![image]({{site.url}}/img/arekit_for_mass_media.png)
 
 Automatical processing of a large documents requires a deep text understanding,
 including connections between objects extraction.
@@ -208,9 +208,9 @@ out/
 
 For **samples**, every record represent a context sample with the corresponding features:
 ```csv
-id	doc_id	label	text_a	text_b	s_ind	t_ind	sent_ind	entity_values	entity_types	entities
-o0_i0_	0	0	24 марта президент #E #S провел переговоры с лидерами стран #O в #E вызвав внимание рынка и предположения о том, что #E удалось уговорить #O совместно бойкотировать российские нефть и газ.	#S к #O в контексте : << #S провел переговоры с лидерами стран #O >>	4	10	0	сша,джо байден,евросоюза,брюсселе,америке,ес	GPE,PERSON,ORG,GPE,GPE,ORG	3,4,10,12,21,24
-o0_i1_	0	0	24 марта президент #E #S провел переговоры с лидерами стран #O в #E вызвав внимание рынка и предположения о том, что #E удалось уговорить #O совместно бойкотировать российские нефть и газ.	#S к #O в контексте : << #S провел переговоры с лидерами стран #O в #E вызвав внимание рынка и предположения о том, что #E удалось уговорить #O >>	4	24	0	сша,джо байден,евросоюза,брюсселе,америке,ес	GPE,PERSON,ORG,GPE,GPE,ORG	3,4,10,12,21,24
+id	doc_id	label	text_a	text_b	s_ind	t_ind	sent_ind	entity_values	entity_types	
+o0_i0_	0	0	24 марта президент #E #S провел переговоры с лидерами стран #O в #E вызвав вни ...
+o0_i1_	0	0	24 марта президент #E #S провел переговоры с лидерами стран #O в #E вызвав вни ...
 ...
 ```
 
