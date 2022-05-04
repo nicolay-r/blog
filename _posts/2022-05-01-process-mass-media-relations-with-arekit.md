@@ -14,6 +14,10 @@ In terms of the latter and such domain as **Sentiment Analysis**, capturing the
 sentiments between objects (relations) gives a potential of the further analysis, 
 by relying on graph of the connections:
 
+<!--more-->
+
+![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/inference-bert-e1.png?raw=true)
+
 In this post we focusing on the sentiment relation extraction between mentioned 
 entities in texts written in Russian.
  This analysis finds its application in analytical texts, in which
@@ -22,10 +26,6 @@ to become a source of opinions in texts.
 More onto the the related task could be found within 
 [this paper](https://arxiv.org/pdf/1808.08932.pdf) or at 
 [NLP-progress](http://nlpprogress.com/russian/sentiment-analysis.html).
-
-<!--more-->
-
-![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/inference-bert-e1.png?raw=true)
 
 For this task we adopt and design [AREkit framework (0.22.0)](https://github.com/nicolay-r/AREkit/tree/0.22.0-rc).
 Let's take a closer look on how this framework (set of toolkits) allows us to prepare the information 
