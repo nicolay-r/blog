@@ -28,7 +28,7 @@ More onto the the related task could be found within
 [this paper](https://arxiv.org/pdf/1808.08932.pdf) or at 
 [NLP-progress](http://nlpprogress.com/russian/sentiment-analysis.html).
 
-For this task we adopt and design [AREkit framework (0.22.0)](https://github.com/nicolay-r/AREkit/tree/0.22.0-rc).
+For this Sentiment Relation Extraction we adopt and design [AREkit framework (0.22.0)](https://github.com/nicolay-r/AREkit/tree/0.22.0-rc).
 Let's take a closer look on how this framework (set of toolkits) allows us to prepare the information 
 in order to initiate automatic relation extraction by means of machine learning methods.
 In particular, within this post we are focused on [BERT language models](https://arxiv.org/pdf/1810.04805.pdf).
@@ -78,11 +78,13 @@ synonyms = StemmerBasedSynonymCollection(
 ``` 
 
 On the second step, we implement **text parser**. 
-In AREkit-0.22.0, the latter represents a list of the transormations organized in a pipeline:
-* We split the input sequence onto list of words separated by white spaces.
-* For named entities annotation we adopt BERT model (pretrained on the OntoNotes-v5 collection), provided by 
+In AREkit-0.22.0, the latter represents a list of the transormations organized in a pipeline 
+of the following transformations:
+1. We split the input sequence onto list of words separated by white spaces.
+2. For named entities annotation we adopt BERT model (pretrained on the OntoNotes-v5 collection), provided by 
 [DeepPavlov](https://deeppavlov.ai/).
-* Since we perform entities grouping, there is a need to provide the related function (`get_synonysms_group_index`):
+3. Since we perform entities grouping, there is a need to provide the related function (`get_synonysms_group_index`):
+
 ```python
 def get_synonym_group_index(s, value):
     if not s.contains_synonym_value(value):
