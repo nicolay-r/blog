@@ -170,7 +170,8 @@ exp = CustomExperiment(
 In terms of experiment handler, which is related to data preparation for BERT model, additionally declaring:
 * `nli-m` text formatter for `TextB` and utilize NLI approach by empasizing the context
   between Object and Subject pair ([see original paper](https://arxiv.org/pdf/1903.09588.pdf)).
-```handler
+  
+```python
 handler = BertExperimentInputSerializerIterationHandler(
     exp_io=exp_io,
     exp_ctx=exp_ctx,
