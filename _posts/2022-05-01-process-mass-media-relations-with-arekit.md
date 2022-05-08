@@ -9,22 +9,22 @@ comments: true
 
 ![alt text]({{site.url}}/img/arekit_for_mass_media.png)
 
-Automatical processing of a large documents requires a deep text understanding,
+Automatic processing of a large documents requires a deep text understanding,
 including connections between objects extraction.
 In terms of the latter and such domain as **Sentiment Analysis**, capturing the 
-sentiments between objects (relations) gives a potential of the further analysis, 
-by relying on graph of the connections:
+sentiments between objects (relations) gives a potential for further analysis, 
+built of top of the sentiment connections: 
 
 <!--more-->
 
 ![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/inference-bert-e1.png?raw=true)
 
-In this post we focusing on the sentiment relation extraction between mentioned 
-entities in texts written in Russian.
+In this post we're focusing on the Sentiment Relation Extraction between mentioned 
+entities in texts, written in Russian.
  This analysis finds its application in analytical texts, in which
 author sharing his opinion onto variety of objects. The latter causes some text objects 
 to become a source of opinions in texts.
-More onto the the related task could be found within 
+More onto the related task could be found in 
 [this paper](https://arxiv.org/pdf/1808.08932.pdf) or at 
 [NLP-progress](http://nlpprogress.com/russian/sentiment-analysis.html).
 
@@ -53,8 +53,8 @@ texts = [
 ```
 
 Next, we declare a **synonyms collection**.
-It is provided by AREkit and allows us to address on the named entities coreference problem.
-In order to initialize this collection, there is a need to provide a list of synonym goups 
+It is provided by AREkit and allows us to address on the named entity co-reference problem.
+In order to initialize this collection, there is a need to provide a list of synonym groups 
 ([see an example](https://raw.githubusercontent.com/nicolay-r/ARElight/main/data/synonyms.txt)).
 Since the entity values are in russian, it expected to represent them in a lemmatized format.
 For the latter we adopt a wrapper over [mystem](https://github.com/aotd1/mystem) (`MystemWrapper`) library.
@@ -78,7 +78,7 @@ synonyms = StemmerBasedSynonymCollection(
 ``` 
 
 On the second step, we implement **text parser**. 
-In AREkit-0.22.0, the latter represents a list of the transormations organized in a pipeline 
+In AREkit-0.22.0, the latter represents a list of the transformations organized in a pipeline 
 of the following transformations:
 1. We split the input sequence onto list of words separated by white spaces.
 2. For named entities annotation we adopt BERT model (pretrained on the OntoNotes-v5 collection), provided by 
@@ -101,7 +101,7 @@ text_parser = BaseTextParser(pipeline=[
 Next, we declare the **opinion annotation algorithm** required to compose a PAIRS of objects 
 across all the objects mentioned in text.
 All the pairs are considered to be annotated with the unknown label (`NoLabel`).
-In addition it is possible to clarify the max distance bound in terms between pair participants, or leave it `None` 
+In addition, it is possible to clarify the max distance bound in terms between pair participants, or leave it `None` 
 by considering a pair without this parameter:
 ```python
 algo = PairBasedAnnotationAlgorithm(
@@ -113,14 +113,12 @@ annotator = DefaultAnnotator(algo)
 
 Then, we focusing on experiment context implementation.
 
-There is need to to define a **folding** over list of documents.
-In general, you may organize a split of document onto Train and Test sets.
-Within this example, we adopt `NoFolding` and consider that all the documents will be witin a single (`DataType.TEST`) list.
-
-We additionially declare **labels formatter**, which is requred for `TextB` of the BERT input sequence in further.
-
-For entities representation, AREkit framework provides **entities formatter**. 
-In this example we consider to mask them by providing a BERT sharp-prefixed tokens:
+* Declare a **folding** over list of documents.
+In general, you may organize a split of document onto `Train` and `Test` sets.
+Within this example, we
+adopt `NoFolding` and consider that all the documents will be witin a single (`DataType.TEST`) list.
+* Declare **labels formatter**, which is required for `TextB` of the BERT input sequence in further.
+* Declare **entities formatter**, considering masking them by providing a BERT styled, sharp-prefixed tokens:
  `#O` (Object) and `#S` (Subject).
 
 ```python
@@ -133,18 +131,19 @@ str_entity_formatter = SharpPrefixedEntitiesSimpleFormatter()
 ```
 
 On last prepartion step, we gather everyting together in order to compose an **experiment handler**.
-In terms of AREkit library, **experiment** is a sets of operations for working with documents and relations 
-for data preraration required for machine learning training organization in further.
-This set includes initialization of a:
-1. context
-2. input/output utils 
-3. document operations
-4. opinion operations
-5. list of handlers.
 
-In terms of hadler, which is related to data prepration for BERT, 
-we consider `nli-m` text format for `TextB` and utilize NLI approach by empasizing the context 
-between Object and Subject pair ([see original paper](https://arxiv.org/pdf/1903.09588.pdf)).
+Being a [core module of AREkit](https://github.com/nicolay-r/AREkit/tree/0.22.0-rc/arekit/common/experiment), 
+**experiment** -- is a sets of API components required to work with a large amount of mass-media 
+news. This set includes and consider initialization of the following components:
+1. context  -- required for sampling.
+2. input/output -- methods related to I/O operations organization
+3. document related operations;
+4. opinion related operations;
+5. List of handlers.
+
+For context initialization:
+* Contexts with a mentioned subject object pair in it, limited by `50` terms;
+* `NoLabel()` instance to label every sample.
 ```python
 exp_ctx = BertSerializationContext(
     label_scaler=SingleLabelScaler(NoLabel()),
@@ -165,7 +164,12 @@ exp = CustomExperiment(
     doc_ops=doc_ops,
     labels_formatter=labels_fmt,
     neutral_labels_fmt=labels_fmt)
+```
 
+In terms of experiment handler, which is related to data preparation for BERT model, additionally declaring:
+* `nli-m` text formatter for `TextB` and utilize NLI approach by empasizing the context
+  between Object and Subject pair ([see original paper](https://arxiv.org/pdf/1903.09588.pdf)).
+```handler
 handler = BertExperimentInputSerializerIterationHandler(
     exp_io=exp_io,
     exp_ctx=exp_ctx,
@@ -176,8 +180,10 @@ handler = BertExperimentInputSerializerIterationHandler(
     sample_provider_type=BertSampleProviderTypes.NLI_M,
     entity_formatter=exp_ctx.StringEntityFormatter,
     value_to_group_id_func=synonyms.get_synonym_group_index,
-    balance_train_samples=True)
+    balance_train_samples=True)     # This parameter required by not utilized.
 ```
+
+> **NOTE:** In further versions we're looking forward to adopt dictionaries to pass these parameters, [see issue #318](https://github.com/nicolay-r/AREkit/issues/318)
 
 The application of the handler towards the provided lists of texts is based on the `ExperimentEngine`.
 The engine allows to execute handler by passing a folding schema.
@@ -198,6 +204,9 @@ engine = ExperimentEngine(exp_ctx.DataFolding)  # Present folding limitation.
 engine.run([handler])
 ```
 
+> **NOTE:** We demonstrate it in a simple way, consuming `O(N)` memory (`N`-amount of documents). However it is possible to perform document reading on demand, to 
+> prevent keep all the document in memory.
+
 Finally, the output represents a multiple files, including opinions, **samples**:
 ```
 out/
@@ -206,8 +215,8 @@ out/
    result_d0_Test.txt
 ```
 
-> NOTE: Other files generated after handler application are not utlized within this example and might be 
->removed in future AREkit releases.
+> **NOTE:** Other files generated after handler application are not utlized within this example and might be 
+>removed in future AREkit releases. [see #282](https://github.com/nicolay-r/AREkit/issues/282)
 
 For **samples**, every record represent a context sample with the corresponding features:
 ```csv
