@@ -144,6 +144,7 @@ news. This set includes and consider initialization of the following components:
 For context initialization:
 * Contexts with a mentioned subject object pair in it, limited by `50` terms;
 * `NoLabel()` instance to label every sample.
+
 ```python
 exp_ctx = BertSerializationContext(
     label_scaler=SingleLabelScaler(NoLabel()),
