@@ -139,7 +139,7 @@ news. This set includes and consider initialization of the following components:
 2. input/output -- methods related to I/O operations organization ([InferIOUtils](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/exp/exp_io.py))
 3. document related operations ([CustomDocOperations](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/exp/doc_ops.py));
 4. opinion related operations;
-5. Experiment instance ([CustomExperiment](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/exp/doc_ops.py)) -- exposes all the structures declared in 1-4.
+5. Custom Experiment instance ([BaseExperiment](https://github.com/nicolay-r/AREkit/blob/0.22.0-rc/arekit/common/experiment/api/base.py)) -- exposes all the structures declared in 1-4.
 6. List of handlers.
 
 For context initialization:
