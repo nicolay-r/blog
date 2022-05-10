@@ -135,11 +135,12 @@ On last prepartion step, we gather everyting together in order to compose an **e
 Being a [core module of AREkit](https://github.com/nicolay-r/AREkit/tree/0.22.0-rc/arekit/common/experiment), 
 **experiment** -- is a sets of API components required to work with a large amount of mass-media 
 news. This set includes and consider initialization of the following components:
-1. context  -- required for sampling.
-2. input/output -- methods related to I/O operations organization
-3. document related operations;
+1. context  -- required for sampling. ([BertSerializationContext](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/network/bert/ctx.py))
+2. input/output -- methods related to I/O operations organization ([InferIOUtils](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/exp/exp_io.py))
+3. document related operations ([CustomDocOperations](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/exp/doc_ops.py));
 4. opinion related operations;
-5. List of handlers.
+5. Experiment instance ([CustomExperiment](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/exp/doc_ops.py)) -- exposes all the structures declared in 1-4.
+6. List of handlers.
 
 For context initialization:
 * Contexts with a mentioned subject object pair in it, limited by `50` terms;
@@ -166,6 +167,8 @@ exp = CustomExperiment(
     labels_formatter=labels_fmt,
     neutral_labels_fmt=labels_fmt)
 ```
+
+For the mentioned classes above we left the implementation details behind from this post. 
 
 In terms of experiment handler, which is related to data preparation for BERT model, additionally declaring:
 * `nli-m` text formatter for `TextB` and utilize NLI approach by empasizing the context
@@ -220,15 +223,27 @@ out/
 > **NOTE:** Other files generated after handler application are not utlized within this example and might be 
 >removed in future AREkit releases. [see #282](https://github.com/nicolay-r/AREkit/issues/282)
 
-For **samples**, every record represent a context sample with the corresponding features:
-```csv
-id	doc_id	label	text_a	text_b	s_ind	t_ind	sent_ind	entity_values	entity_types	
-o0_i0_	0	0	24 марта президент #E #S провел переговоры с лидерами стран #O в #E вызвав вни ...
-o0_i1_	0	0	24 марта президент #E #S провел переговоры с лидерами стран #O в #E вызвав вни ...
-...
-```
+As a result ([another output example](https://www.dropbox.com/s/iltg28qth6qjuhv/sample-train-0.tsv.gz?dl=1)), 
+every **sample** consist of the following fields:
+* `id` -- row identifier
+* `doc_id` -- document identifier
+* `label` -- sample label
+* `text_a` -- TEXT_A of the input sample context for BERT model (before `[SEP]`).
+* `text_b` -- TEXT_B, utilized for `nli` extra sentence (after `[SEP]`)
+* `s_ind` -- term index of the `Subject` in text (`#S`)
+* `t_ind` -- term index of the `Object` in text (`#0`)
+* `sent_ind` -- sentence index in the related document
+* `entity_values` -- entity values (in order of their appearance in sample)
+* `entity_types` -- entity types (in order of their appearance in sample)
 
-Thank you for your attention!
+> **NOTE:** Now we have a fixed set of columns declared in `handler`. 
+> We looking forward to provide a customization and make API even more flexible.
+
+Thank you for reading this tutorial, related to the 
+[ARElight](https://github.com/nicolay-r/ARElight/tree/0.22.0) 
+project functionality in particular.
+For a greater details, feel free to procced and invesigate the following [repository](https://github.com/nicolay-r/ARElight).
+In next posts we provide details on how to adopt the pre-generated samples in model fine-tunning process.
 
 ## References
 
