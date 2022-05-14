@@ -140,11 +140,11 @@ Let's take a look on how it affects on the result. Considering a HEAD#2 of the B
 
 For the pretrained state:
 
-![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-finetuned.png)
+![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-pretrained.png)
 
 After 4 epochs of the fine-tunning:
 
-![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-pretrained.png)
+![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-finetuned.png)
 
 > It is possible to investige the greater attention onto `#0` and `#S` objects in sample.
 
