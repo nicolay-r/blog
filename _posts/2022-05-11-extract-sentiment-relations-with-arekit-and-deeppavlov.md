@@ -26,10 +26,13 @@ please proceed with the following post on
 [Process Mass-Media relations for Language Models with AREkit](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit)
 or just proceed by downloading already prepared contexts (see "data preparation" details).
 
+![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/samples-bert.png)
+
+
 The code presented in a snippets below, could be manually executed within the following examples:
-> [A COMPLETE EXAMPLE (BERT training data preparation)](https://github.com/nicolay-r/ARElight/blob/main/examples/serialize_rusentrel_for_bert.py)
+> [A COMPLETE EXAMPLE (BERT training data preparation)](https://github.com/nicolay-r/ARElight/tree/0.22.0/examples/serialize_rusentrel_for_bert.py)
 >
-> [A COMPLETE EXAMPLE (Training)](https://github.com/nicolay-r/ARElight/blob/main/examples/train_bert.py)
+> [A COMPLETE EXAMPLE (Training)](https://github.com/nicolay-r/ARElight/tree/0.22.0/examples/train_bert.py)
 
 Let's get started with the required **data peraration** which requires the follwing steps:
 1. Download RuSentRel prepared samples for BERT model training. 
@@ -59,6 +62,7 @@ batch_size = 2
 ```
 
 In order to perform samples classification, we adopt BERT classifier (`bert_classifier`) from [DeepPavlov (0.11.0)](https://deeppavlov.ai/) library.
+
 According to the personal experience, **It is was important** to mention here a load path parameter: `load_path=model_checkpoint_path`.
 Since only the latter allows to perform a complete model loading, including the classification layer ontop of the BERT backbone.
 
@@ -66,7 +70,7 @@ Since only the latter allows to perform a complete model loading, including the 
 # Model classifier.
 model = bert_classifier.BertClassifierModel(
     bert_config_file=bert_config_file,
-    load_path=bert_ckpt_file,
+    load_path=bert_ckpt_file, # IMPORTANT: intialize classification layer!
     keep_prob=0.1,
     n_classes=3,
     save_path="out",
@@ -91,7 +95,7 @@ def iter_batches(s, batch_size):
     data = {"text_a": [], "text_b": [], "label": []}
 
     # NOTE: it is important to iter shuffled data!
-    for row_ind, row in s.iter_shuffled():
+    for row_ind, row in s.iter_shuffled():      # IMPORTANT: shuffle data!
         data["text_a"].append(row['text_a'])
         data["text_b"].append(row['text_b'])
         data["label"].append(row['label'])
@@ -133,6 +137,7 @@ model.save()
 ```
 
 In the next post we cover the pre-trained model application for unlabeled Mass-Media texts 
+using BRAT toolset as a front-end.
 
 ### Summary
 The most important aspects deal with once experiment with BERT 
