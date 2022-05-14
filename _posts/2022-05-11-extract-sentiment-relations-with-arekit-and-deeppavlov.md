@@ -24,10 +24,10 @@ and train [BERT classification model](https://arxiv.org/pdf/1810.04805.pdf) impl
 For a greater details related to samples preparation, for a particular text, 
 please proceed with the following post on 
 [Process Mass-Media relations for Language Models with AREkit](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit)
-or just proceed by downloading already prepared contexts (see "data preparation" details).
+or just proceed by downloading already prepared contexts (see "data preparation" details)
 
-![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/samples-bert.png)
-
+![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/samples-bert.png/?raw=true)
+> Figure: Example of the CSV file utilized for finetunning
 
 The code presented in a snippets below, could be manually executed within the following examples:
 > [A COMPLETE EXAMPLE (BERT training data preparation)](https://github.com/nicolay-r/ARElight/tree/0.22.0/examples/serialize_rusentrel_for_bert.py)
