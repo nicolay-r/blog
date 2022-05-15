@@ -96,7 +96,7 @@ bert_proc = BertPreprocessor(vocab_file=vocab_file,
                              max_seq_length=128)
 ```
 
-AREkit-0.22.0 provides a `BaseRowsStorage` with API for samples iteration, implemented over `pandas` library.
+[AREkit-0.22.0](https://github.com/nicolay-r/AREkit/tree/0.22.0-rc) provides a `BaseRowsStorage` with API for samples iteration, implemented over `pandas` library.
 
 The most **important notion here** was to perform shuffled data iteration. 
 Most contexts are 0-labeled, it results in conspiracy during model training.
