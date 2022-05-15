@@ -171,15 +171,15 @@ For the **pretrained state**:
 2. Smoothed attention distribution onto the top layers (11) is a specifics of the fine-tunning organization
 adopted for `SentRuBERT` [[4]](#references).
 
-
 After `4` epochs of the **fine-tunned** state:
 
 ![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-finetuned.png)
 
 1. It is possible to investigate the greater attention onto `#0` and `#S` objects in sample
  (on top layers)
-2. Attention become greater for frames of the [RuSentiFrames](https://github.com/nicolay-r/RuSentiFrames) collection; 
-the latter utlized in RuAttitudes development as a knowledge-base.
+2. Attention become greater for frames of the 
+[RuSentiFrames](https://github.com/nicolay-r/RuSentiFrames): `окончательно`, `лишилась`, `доверия`; 
+the latter utlized in RuAttitudes collection development as a knowledge-base.
 
 In the next post we cover the pre-trained model application for unlabeled Mass-Media texts 
 using BRAT toolset as a front-end.
