@@ -9,7 +9,7 @@ comments: true
 
 ![alt text]({{site.url}}/img/arekit_deepPavlov-finetune.png)
 
-**Sentiment attitude extraction** -- is a sentiment analysis subtask, in which attitude corresponds 
+**Sentiment attitude extraction** [[6]](#references) -- is a sentiment analysis subtask, in which attitude corresponds 
 to the text position conveyed by Subject towards other Object mentioned in text such as: 
 entities, events, etc. 
 
@@ -24,20 +24,34 @@ and train [BERT classification model](https://arxiv.org/pdf/1810.04805.pdf) impl
 For a greater details related to samples preparation, for a particular text, 
 please proceed with the following post on 
 [Process Mass-Media relations for Language Models with AREkit](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit)
-or just proceed by downloading already prepared contexts (see "data preparation" details)
+or just proceed by downloading already prepared contexts (see **data preparation** details)
+
+Figure below illustrates an example of the CSV file utilized for finetunning:
 
 ![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/samples-bert.png/?raw=true)
-> Figure: Example of the CSV file utilized for finetunning
 
 The code presented in a snippets below, could be manually executed within the following examples:
 > [A COMPLETE EXAMPLE (BERT training data preparation)](https://github.com/nicolay-r/ARElight/tree/0.22.0/examples/serialize_rusentrel_for_bert.py)
 >
 > [A COMPLETE EXAMPLE (Training)](https://github.com/nicolay-r/ARElight/tree/0.22.0/examples/train_bert.py)
 
-Let's get started with the required **data peraration** which requires the follwing steps:
-1. Download RuSentRel prepared samples for BERT model training. 
+Let's get started with the required **data peraration** stage.
+For Sentiment Relation Extraction we consider and focusing on mass-media texts written in Russian.
+
+To prepare the related text samples, we consider the contents of [RuSentRel](https://github.com/nicolay-r/RuSentRel) collection which represents 
+analytical articles from `insomi.ru` portal, written in Russian.
+
+As for the BERT initial state, we consider BERT-base-mult (multilingual BASE model) which 
+has been finetunned with texts and news titles from [RuAttitudes-2.0-Large](https://github.com/nicolay-r/RuAttitudes) collection.
+The latter represents a distant-supervision approach ([knowledge-based](https://github.com/nicolay-r/RuSentiFrames), see paper [[5]](#references)) 
+towards mass-media collection of news,
+and includes `~135K` news with annotated attitudes between mentioned named entities.
+For a greater details please proceed with the related [[3]](#references) or [paper](https://aclanthology.org/R19-1118/).
+
+To summarise, we consider the download the following resources:
+1. [RuSentRel](https://github.com/nicolay-r/RuSentRel) prepared samples for BERT model training
 [[download]](https://www.dropbox.com/s/iltg28qth6qjuhv/sample-train-0.tsv.gz?dl=1)
-2. Download BERT-pretrained state on RuAttitudes collection 
+2. BERT-pretrained state 
 [[download]](https://www.dropbox.com/s/g73osmwyrqtr2at/ra-20-srubert-large-neut-nli-pretrained-3l-finetuned.tar.gz?dl=1)
 
 The input data represents and archive of the CSV formatter list of input contexts:
@@ -136,17 +150,30 @@ At last we keep the result model state as follows:
 model.save()
 ```
 
-Let's take a look on how it affects on the result. Considering a HEAD#2 of the BERT transformer.
+Let's take a look on how it affects on the result. 
+In order to analyse attention weights we adopt approach [[1]](#references).
+Considering a `HEAD#2` of the BERT transformer for layers (from left to right): `2`, `4`, `8`, `11`.
+In addition, you may also checkout for a greater details the following paper [[2]](#references).
 
-For the pretrained state:
+For the **pretrained state**:
 
 ![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-pretrained.png)
 
-After 4 epochs of the fine-tunning:
+1. This state has been fine-tuned by contents of the [RuAttitudes-2.0-Large](https://github.com/nicolay-r/RuAttitudes) collection 
+ which yields of a large amount of news titles with annotated subject-object pairs and
+ mentioned frames in between them; 
+2. Smoothed attention distribution onto the top layers (11) is a specifics of the fine-tunning organization
+adopted for `SentRuBERT` [[4]](#references).
+
+
+After `4` epochs of the **fine-tunned** state:
 
 ![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-finetuned.png)
 
-> It is possible to investige the greater attention onto `#0` and `#S` objects in sample.
+1. It is possible to investigate the greater attention onto `#0` and `#S` objects in sample
+ (on top layers)
+2. Attention become greater for frames of the [RuSentiFrames](https://github.com/nicolay-r/RuSentiFrames) collection; 
+the latter utlized in RuAttitudes development as a knowledge-base.
 
 In the next post we cover the pre-trained model application for unlabeled Mass-Media texts 
 using BRAT toolset as a front-end.
@@ -157,3 +184,14 @@ application for sentiment classification task were as follows:
 1. Consider the classification layer hidden state loading as well 
 (`load_path=model_checkpoint_path` for DeepPavlov library)
 2. Guarantee shuffled and class-balanced input data.
+
+
+### References
+
+1. [What Does BERT Look at? An Analysis of BERT’s Attention](https://aclanthology.org/W19-4828.pdf) + [[github]](https://github.com/clarkkev/attention-analysis)
+2. [Language Models Application in Sentiment
+Attitude Extraction Task](https://nicolay-r.github.io/website/data/rusnachenko2021language.pdf)
+3. [Distant Supervision for Sentiment Attitude Extraction](https://aclanthology.org/R19-1118.pdf)
+4. [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://arxiv.org/abs/1908.10084)
+5. [Sentiment Frames for Attitude Extraction in Russian](https://arxiv.org/pdf/2006.10973.pdf)
+6. [Extracting Sentiment Attitudes from Analytical Texts](https://arxiv.org/pdf/1808.08932.pdf)
