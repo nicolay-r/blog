@@ -150,7 +150,13 @@ At last we keep the result model state as follows:
 model.save()
 ```
 
-Let's take a look on how it affects on the result. 
+Let's take a look on how it affects on the result for the following sample:
+
+*ведя такую игру, `#s` окончательно лишилась доверия `#о` и стран `#e`. [SEP] `#s` к `#o` в контексте: << `#s` окончательно лишилась доверия `#o` >> [SEP]*
+
+> NOTE: we adopt entity masking and therefore replace entities with `#e`, object with `#o` and subject with `#s`.
+> Being trained, the result model is independent from the statistics between mentioned named entities.
+
 In order to analyse attention weights we adopt approach [[1]](#references).
 Considering a `HEAD#2` of the BERT transformer for layers (from left to right): `2`, `4`, `8`, `11`.
 In addition, you may also checkout for a greater details the following paper [[2]](#references).
@@ -184,7 +190,6 @@ application for sentiment classification task were as follows:
 1. Consider the classification layer hidden state loading as well 
 (`load_path=model_checkpoint_path` for DeepPavlov library)
 2. Guarantee shuffled and class-balanced input data.
-
 
 ### References
 
