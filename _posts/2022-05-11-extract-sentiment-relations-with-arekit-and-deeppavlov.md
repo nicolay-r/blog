@@ -41,14 +41,14 @@ For Sentiment Relation Extraction we consider and focusing on mass-media texts w
 To prepare the related text samples, we consider the contents of [RuSentRel](https://github.com/nicolay-r/RuSentRel) collection which represents 
 analytical articles from `insomi.ru` portal, written in Russian.
 
-As for the BERT initial state, we consider BERT-base-mult (multilingual BASE model) which 
+As for the BERT initial state, we consider `BERT-base-mult` (multilingual, `base`-sized model) which 
 has been finetunned with texts and news titles from [RuAttitudes-2.0-Large](https://github.com/nicolay-r/RuAttitudes) collection.
 The latter represents a distant-supervision approach ([knowledge-based](https://github.com/nicolay-r/RuSentiFrames), see paper [[5]](#references)) 
-towards mass-media collection of news,
-and includes `~135K` news with annotated attitudes between mentioned named entities.
-For a greater details please proceed with the related [[3]](#references) or [paper](https://aclanthology.org/R19-1118/).
+towards mass-media collection of news. 
+RuAttitudes includes `~135K` news with annotated attitudes between mentioned named entities.
+For a greater details please proceed with the related [[3]](#references).
 
-To summarise, we consider the download the following resources:
+The first step is to download the following resources:
 1. [RuSentRel](https://github.com/nicolay-r/RuSentRel) prepared samples for BERT model training
 [[download]](https://www.dropbox.com/s/iltg28qth6qjuhv/sample-train-0.tsv.gz?dl=1)
 2. BERT-pretrained state 
