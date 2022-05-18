@@ -168,6 +168,10 @@ At last we keep the result model state as follows:
 model.save()
 ```
 
+[The result docker DEMO. You cat try process your own text.](https://github.com/nicolay-r/ARElight/#docker-verion-quick)
+
+### BERT Finetuned state Analysis
+
 Let's take a look on how it affects on the result for the following sample:
 
 *ведя такую игру, `#s` окончательно лишилась доверия `#о` и стран `#e`. [SEP] `#s` к `#o` в контексте: << `#s` окончательно лишилась доверия `#o` >> [SEP]*
@@ -200,6 +204,8 @@ the latter utlized in RuAttitudes collection development as a knowledge-base.
 
 In the next post we cover the pre-trained model application for unlabeled Mass-Media texts 
 using BRAT toolset as a front-end.
+
+The latter finetuned model become a source of the following [DEMO](https://github.com/nicolay-r/ARElight/#docker-verion-quick).
 
 ### Summary
 The most important aspects deal with once experiment with BERT 
