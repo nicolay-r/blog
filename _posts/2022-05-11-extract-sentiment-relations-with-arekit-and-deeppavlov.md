@@ -7,7 +7,7 @@ tags: [Sentiment Analysis, Relation Extraction, DeepPavlov, Finetuning, Language
 comments: true
 ---
 
-![alt text]({{site.url}}/img/arekit_deepPavlov-finetune.png)
+![alt text](https://raw.githubusercontent.com/nicolay-r/ARElight/0.22.0/docs/inference-pcnn-e0.png)
 
 **Sentiment attitude extraction** [[6]](#references) -- is a sentiment analysis subtask, in which attitude corresponds 
 to the text position conveyed by Subject towards other Object mentioned in text such as: 
@@ -22,6 +22,8 @@ and then utilized for [BERT classification model](https://arxiv.org/pdf/1810.048
 by means of [DeepPavlov](https://deeppavlov.ai/) framework. 
 
 <!--more-->
+
+![alt text]({{site.url}}/img/arekit_deepPavlov-finetune.png)
 
 For a greater details related to samples preparation details, 
 please follow the related post 
