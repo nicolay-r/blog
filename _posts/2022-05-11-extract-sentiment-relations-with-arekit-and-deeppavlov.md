@@ -7,7 +7,10 @@ tags: [Sentiment Analysis, Relation Extraction, DeepPavlov, Finetuning, Language
 comments: true
 ---
 
-![alt text](https://raw.githubusercontent.com/nicolay-r/ARElight/0.22.0/docs/inference-pcnn-e0.png)
+![alt text](https://raw.githubusercontent.com/nicolay-r/ARElight/main/docs/inference-bert-e1.png)
+
+> **Figure:** Results of an automatic sentiment relation extraction between mentioned named 
+> entities from Mass-Media Texts written in Russian. Visualized with [BRAT Rapid Annotation Tool](https://brat.nlplab.org/).
 
 **Sentiment attitude extraction** [[6]](#references) -- is a sentiment analysis subtask, in which attitude corresponds 
 to the text position conveyed by Subject towards other Object mentioned in text such as: 
@@ -48,6 +51,9 @@ All the entity-related information were demarcated into other CSV columns (see `
 
 ![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/samples-bert.png/?raw=true)
 
+### Traning BERT for samples classification
+
+In this section we provide short code snippets onto BERT-model training organization with DeepPavlov library.
 The code presented in a snippets below could be manually executed within the following examples:
 > [A COMPLETE EXAMPLE (BERT training data preparation)](https://github.com/nicolay-r/ARElight/tree/0.22.0/examples/serialize_rusentrel_for_bert.py)
 >
@@ -176,32 +182,47 @@ model.save()
 
 Let's take a look on how it affects on the result for the following sample:
 
-*ведя такую игру, `#s` окончательно лишилась доверия `#о` и стран `#e`. [SEP] `#s` к `#o` в контексте: << `#s` окончательно лишилась доверия `#o` >> [SEP]*
+> *ведя такую игру, `#S` окончательно лишилась доверия `#О` и стран `#E`. [SEP] `#S` к `#O` в контексте: « `#S` окончательно лишилась доверия `#O` » [SEP]*
 
-> NOTE: we adopt entity masking and therefore replace entities with `#e`, object with `#o` and subject with `#s`.
-> Being trained, the result model is independent from the statistics between mentioned named entities.
+> *playing such a game, `#S` finally lost the trust of `#O` and countries `#E`. [SEP] `#S` to `#O` in context: « `#S` has finally lost the trust of `#O` » [SEP]*
 
-In order to analyse attention weights we adopt approach [[1]](#references).
-Considering a `HEAD#2` of the BERT transformer for layers (from left to right): `2`, `4`, `8`, `11`.
-In addition, you may also checkout for a greater details the following paper [[2]](#references).
+As it was mentioned earlier, we adopt entity masking, by using `#o`, `#s`, and `#e`, in order to
+deliberately make the finetuned model independent from the statistics between mentioned named entities.
+In order to analyse attention weights we adopt approach, proposed in [[1]](#references).
+Architectually, BERT language model represents a set of individual encoder components, dubbed as **heads**.
+Every head implements the self-attention machanism with architecture which is behind of this post, 
+but covered in a large details in work [[8]](#references).
+Our pretrained state is a BASE-sized bert model with `12 heads`, where every head consis of `12 layers`.
 
-For the **pretrained state**:
+To illustrate the changes and affection of the finetunning on attention behavior, 
+we consider to pick a `HEAD#2` of the BERT transformer for layers (from left to right): `2`, `4`, `8`, `11`.
+For even more detailed analysis, please proceed with the following paper (written in Russian) [[2]](#references).
+
+For the **original state** (SentRuBERT):
+
+![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-original.png)
+
+1. Attention focused on the [SEP] tokens;
+2. Smoothed attention distribution onto the top layers (11) is a specifics of the `SentRuBERT` [[4]](#references) training organization.
+
+For the initial, **downloaded state** (finetuned SentRuBERT on [RuAttitudes-2.0-Large](https://github.com/nicolay-r/RuAttitudes) collection):
 
 ![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-pretrained.png)
 
-1. The contents of the [RuAttitudes-2.0-Large](https://github.com/nicolay-r/RuAttitudes) collection 
+* The contents of the [RuAttitudes-2.0-Large](https://github.com/nicolay-r/RuAttitudes) collection 
  yields of a large amount of news titles with annotated subject-object pairs and
- mentioned frames in between them: `окончательно`, `лишилась`, `доверия`;
-2. Smoothed attention distribution onto the top layers (11) is a specifics of the `SentRuBERT` [[4]](#references) training organization.
+ mentioned frames in between them: `окончательно`, (finally) `лишилась`, (to lost) `доверия` (the trust);
+ This is caused because of the [RuSentiFrames](https://github.com/nicolay-r/RuSentiFrames) adoptation in 
+RuAttitudes collection development: most texts represent news titles with mentioned frames in between subject-object pair.
 
-After `4` epochs of the **finetuned** state:
+After `4` epochs of the **finetuned** state (using RuSentRel collection):
 
 ![alt text]({{site.url}}/img/example_bert_2-4-8-11-head2-m2-finetuned.png)
 
 1. It is possible to investigate the greater attention onto `#0` and `#S` objects in sample
  (on top layers)
 2. Attention become greater for frames of the 
-[RuSentiFrames](https://github.com/nicolay-r/RuSentiFrames): `окончательно`, `лишилась`, `доверия`; 
+[RuSentiFrames](https://github.com/nicolay-r/RuSentiFrames): `окончательно` (finally), `лишилась` (to lost), `доверия` (the trust); 
 the latter utlized in RuAttitudes collection development as a knowledge-base.
 
 In the next post we cover the pre-trained model application for unlabeled Mass-Media texts 
@@ -226,3 +247,4 @@ Attitude Extraction Task](https://nicolay-r.github.io/website/data/rusnachenko20
 5. [Sentiment Frames for Attitude Extraction in Russian](https://arxiv.org/pdf/2006.10973.pdf)
 6. [Extracting Sentiment Attitudes from Analytical Texts](https://arxiv.org/pdf/1808.08932.pdf)
 7. [Utilizing BERT for Aspect-Based Sentiment Analysis via Constructing Auxiliary Sentence](https://arxiv.org/pdf/1903.09588.pdf)
+8. [Attention is All you Need](https://arxiv.org/pdf/1706.03762.pdf)
