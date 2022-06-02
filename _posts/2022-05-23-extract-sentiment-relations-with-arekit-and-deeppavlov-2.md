@@ -60,9 +60,6 @@ BratBackendContentsPipelineItem(label_to_rel={
     rel_color_types={"POS": "GREEN", "NEG": "RED"},
 )
 ```
-For a particular document, the result of the finetuned model, applied towards the other text, might be 
-illustrated via [BRAT](https://brat.nlplab.org/embed.html) toolset as follows:
 
-![alt text](https://github.com/nicolay-r/ARElight/blob/main/docs/inference-bert-e1.png?raw=true)
 
 
