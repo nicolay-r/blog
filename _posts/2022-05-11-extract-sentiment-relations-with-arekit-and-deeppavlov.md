@@ -26,8 +26,6 @@ by means of [DeepPavlov](https://deeppavlov.ai/) framework.
 
 <!--more-->
 
-![alt text]({{site.url}}/img/arekit_deepPavlov-finetune.png)
-
 For a greater details related to samples preparation details, 
 please follow the related post 
 [Process Mass-Media relations for Language Models with AREkit](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit).
