@@ -139,7 +139,7 @@ news. This set includes and consider initialization of the following components:
 2. input/output -- methods related to I/O operations organization ([InferIOUtils](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/exp/exp_io.py))
 3. document related operations ([CustomDocOperations](https://github.com/nicolay-r/ARElight/blob/0.22.0/arelight/exp/doc_ops.py));
 4. opinion related operations;
-5. Custom Experiment instance ([BaseExperiment](https://github.com/nicolay-r/AREkit/blob/0.22.0-rc/arekit/common/experiment/api/base.py)) -- exposes all the structures declared in 1-4.
+5. [BaseExperiment](https://github.com/nicolay-r/AREkit/blob/0.22.0-rc/arekit/common/experiment/api/base.py) -- exposes all the structures declared in 1-4.
 6. List of handlers.
 
 For context initialization:
@@ -158,14 +158,16 @@ exp_ctx = BertSerializationContext(
 exp_io = InferIOUtils(exp_ctx=exp_ctx, output_dir="out")
 
 doc_ops = CustomDocOperations(exp_ctx=exp_ctx, text_parser=text_parser)
+    
+opin_ops = CustomOpinionOperations(labels_formatter=labels_fmt,
+                                   exp_io=exp_io,
+                                   synonyms=synonyms,
+                                   neutral_labels_fmt=labels_fmt)
 
-exp = CustomExperiment(
-    synonyms=synonyms,
-    exp_io=exp_io,
-    exp_ctx=exp_ctx,
-    doc_ops=doc_ops,
-    labels_formatter=labels_fmt,
-    neutral_labels_fmt=labels_fmt)
+exp = BaseExperiment(exp_io=exp_io, 
+                     exp_ctx=exp_ctx, 
+                     doc_ops=doc_ops, 
+                     opin_ops=opin_ops)
 ```
 
 For the mentioned classes above we left the implementation details behind from this post. 
