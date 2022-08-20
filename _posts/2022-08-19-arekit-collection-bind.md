@@ -65,12 +65,15 @@ class CollectionIOUtils(ZipArchiveUtils):
             yield doc_id, filename
 ```
 
-Then since we deal with objects, mentioned in text, based on annotation files (`*.ann` extensions by default), 
+Then since we deal with objects, mentioned in text, based on annotation files 
+(`*.ann` extensions by default), 
 there is a need to declare an `EntityCollection`.
 This collection allows to access to entities by its values.
 Some values might be sinonymous, i.e. different but related to a single entity.
 Our collection does not provide information on how synonyms might be grouped and therefore, in the snippet
 below we declare an empty and exapandable collection.
+> **NOTE:** We adopt stemmer-based collection which supports grouping by lemmatized version of the given word; 
+as for lemmatized AREkit provides a wrapper over Mystem (for Russian words)
 
 ```python
 class CollectionEntityCollection(EntityCollection):
@@ -140,6 +143,7 @@ class CollectionNewsReader(object):
 ```
 
 Every document is considered to be a list of sentences, where every sentence is an ordinary text. Lets put some details on how we perform reading ...
+
 
 -------------------------------------
 NEXT POSTs
