@@ -97,10 +97,25 @@ class CollectionEntityCollection(EntityCollection):
                         synonyms, value)),
             version=version)
 ```
-> TODO: Describe label formatter.
+
+Label Formatter is required for matching text-based presentation of a label with the related `Label` type in Python.
+Considering that our collection describes sentiment relatations between mentined named entities (positive or negative).
+Here is how the latter could be implemented:
 ```python
-class CollectionLabelFormatter():
+class NegativeTo(Label):
     pass
+
+class PositiveTo(Label):
+    pass
+
+class CollectionLabelFormatter():
+    def __init__(self):
+        stol = {
+            "NEGATIVE_TO": labels.NegativeTo,
+            "POSITIVE_TO": labels.PositiveTo,
+        }
+
+    super(SentimentLabelFormatter, self).__init__(stol=stol)
 ```
 
 
