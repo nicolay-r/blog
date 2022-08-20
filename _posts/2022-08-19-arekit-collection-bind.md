@@ -24,7 +24,9 @@ collection.zip/
     xxx.ann
 ```
 
-Most of the API relies on the collection version. Therefore it is required to provide the details onto versions that your collection support.
+In this tutorial we rely on [AREkit-0.22.1](https://github.com/nicolay-r/AREkit).
+Most of the API relies on the collection version.
+Therefore it is required to provide the details onto versions that your collection support.
 In this post we consider that our collection represents a `V1` version.
 ```python
 class CollectionVersions(Enum):
@@ -95,6 +97,12 @@ class CollectionEntityCollection(EntityCollection):
                         synonyms, value)),
             version=version)
 ```
+> TODO: Describe label formatter.
+```python
+class CollectionLabelFormatter():
+    pass
+```
+
 
 Once we read the `BratRelation` instances, in further there is a need to perform a conversion to `TextOpinion`.
 TextOpinion is a general type in AREkit framework which describes a connection between a pair of objects mentioned in text:
@@ -114,7 +122,7 @@ Now we set everything up in order to finally declare our reader.
 The snippet below provides its implementation:
 
 ```python
-class CollectionNewsReader(object):
+class CollectionDocReader(object):
 
     @staticmethod
     def read_text_opinions(filename, doc_id, version, label_formatter):
@@ -144,6 +152,53 @@ class CollectionNewsReader(object):
 
 Every document is considered to be a list of sentences, where every sentence is an ordinary text. Lets put some details on how we perform reading ...
 
+### Testing Implemented Collection Reader
+
+Now we can adopt the collection reader in order to receive an instances with annotated named entities (`BratNews`).
+We first provide the information about every sentences, i.e. the related text and list of mentioned named entities in it.
+Then, using `TextOpinion` property, we display list of all the relations presented in annotation file.
+
+```python
+
+news = CollectionDocReader.read_document("0", doc_id=0, label_formatter=CollectionLabelFormatter())
+assert(isinstance(news, BratNews))
+for sentence in news.iter_sentences():
+    assert(isinstance(sentence, BratSentence))
+    print(sentence.Text.strip())
+    for entity, bound in sentence.iter_entity_with_local_bounds():
+        print("{}: ['{}',{}, {}]".format(
+            entity.ID, entity.Value, entity.Type, 
+            "-".join([str(bound.Position), str(bound.Position+bound.Length)])))
+
+    print()
+
+for text_opinion in news.TextOpinions:
+    assert(isinstance(text_opinion, TextOpinion))
+    print(text_opinion.SourceId, text_opinion.TargetId, str(type(text_opinion.Sentiment)))
+```
+
+The example output is as follows:
+```
+...
+Президент США Джордж Буш заявил, что продолжение мирных переговоров на Ближнем 
+востоке возможно только в том случае, если ХАМАС разоружится и признает государство Израиль.
+ Такого же мнения придерживаются большинство европейских экспертов.
+31: ['президент',PROFESSION, 0-9]
+71: ['сша',COUNTRY, 10-13]
+32: ['джордж буш',PERSON, 14-24]
+34: ['ближнем востоке',LOCATION, 71-86]
+35: ['хамас',ORGANIZATION, 122-127]
+36: ['израиль',COUNTRY, 163-170]
+37: ['европейских',LOCATION, 216-227]
+...
+...
+...
+1 2 <class 'labels.types.PositiveTo'>
+5 4 <class 'labels.types.PositiveTo'>
+21 20 <class 'labels.types.PositiveTo'>
+24 25 <class 'labels.types.NegativeTo'>
+29 30 <class 'labels.types.NegativeTo'>
+```
 
 -------------------------------------
 NEXT POSTs
