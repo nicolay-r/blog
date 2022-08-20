@@ -1,35 +1,41 @@
 ---
 layout: post
-title: "AREkit Tutorial: Bind a custom annotated collection for Relation Extraction"
-description: "AREkit Tutorial: Bind a custom annotated collection for Relation Extraction"
+title: "AREkit Tutorial: Binding a custom annotated collection for Relation Extraction"
+description: "AREkit Tutorial: Binding a custom annotated collection for Relation Extraction"
 category: POST
 tags: [Relation Extraction, BRAT, AREkit]
 ---
 
-Souce for annotation usually represent a raw text or provided with the bunch of annotations. The one of the most convinient way for creating and collaborative annotation ediding in Relation Extraction is a BRAT toolset. Besides the nice rendering and clear visualization of the all relations in text, it provides a web-based editor and ability to export the annotated data. However, the exported data is not prepared for most ML-based relation extraction models since it provides all the possible annotations for a single document. In order to simplify and structurize the contents onto text parts with the particular and fixed amount of annotations in it, in this post we propose the AREkit toolset and cover the API which provides an opportunity to bind your custom collection, based on BRAT annotation.
+Source for annotation usually represent a raw text or provided with the bunch of annotations. The one of the most convinient way for creating and collaborative annotation ediding in Relation Extraction is a BRAT toolset. Besides the nice rendering and clear visualization of the all relations in text, it provides a web-based editor and ability to export the annotated data. However, the exported data is not prepared for most ML-based relation extraction models since it provides all the possible annotations for a single document. In order to simplify and structurize the contents onto text parts with the particular and fixed amount of annotations in it, in this post we propose the AREkit toolset and cover the API which provides an opportunity to bind your custom collection, based on BRAT annotation.
 
 <!--more-->
 
-> NOTE: We may adopt a raw texts, and the latter requred a side application of NER. We remain this behind this post. However, for a greater details on this point you may proceed with the following project.
+> NOTE: We may adopt a raw texts, and the latter required a side application of NER. We remain this behind this post. However, for a greater details on this point you may proceed with the following project.
 
-Lets get started ... Considering that we have a collection with the following structure:
+Lets get started ... Considering that we have a collection with the following structure of the `collection`, 
+presented in a form of the archive:
 
 ```
-1.txt
-1.ann
-...
-xxx.txt
-xxx.ann
+collection.zip/
+    1.txt
+    1.ann
+    ...
+    xxx.txt
+    xxx.ann
 ```
 
 Most of the API relies on the collection version. Therefore it is required to provide the details onto versions that your collection support.
 In this post we consider that our collection represents a `V1` version.
 ```python
 class CollectionVersions(Enum):
-    V1 = "None"
+    V1 = "V1"
 ```
 
 Next, there is a need to establish connection between files and its contents.
+Source-related contribution part provides API for interaction with contents in `zip` archives (class `ZipArchiveUtils`). 
+To adopt the latter we provide an inherited class by declaring the following information: 
+* archive filepath
+* news and annotation filenames
 ```python
 class CollectionIOUtils(ZipArchiveUtils):
 
@@ -59,7 +65,13 @@ class CollectionIOUtils(ZipArchiveUtils):
             yield doc_id, filename
 ```
 
-Then since we deal with objects, mentioned in text, based on annotation files (`*.ann` extentions by default):
+Then since we deal with objects, mentioned in text, based on annotation files (`*.ann` extensions by default), 
+there is a need to declare an `EntityCollection`.
+This collection allows to access to entities by its values.
+Some values might be sinonymous, i.e. different but related to a single entity.
+Our collection does not provide information on how synonyms might be grouped and therefore, in the snippet
+below we declare an empty and exapandable collection.
+
 ```python
 class CollectionEntityCollection(EntityCollection):
 
@@ -68,12 +80,10 @@ class CollectionEntityCollection(EntityCollection):
         self._sort_entities(key=lambda entity: entity.IndexBegin)
 
     @classmethod
-    def read_collection(cls, filename, synonyms, version):
-        synonyms = StemmerBasedSynonymCollection(iter_group_values_lists=[],
-                                                 stemmer=MystemWrapper(),
-                                                 is_read_only=False,
-                                                 debug=False)
-        return ZipArchiveUtils.read_from_zip(
+    def read_collection(cls, filename, version):
+        synonyms = StemmerBasedSynonymCollection(
+            iter_group_values_lists=[], stemmer=MystemWrapper(), is_read_only=False, debug=False)
+        return CollectionIOUtils.read_from_zip(
             inner_path=CollectionIOUtils.get_annotation_innerpath(filename),
             process_func=lambda input_file: cls(
                 contents=BratAnnotationParser.parse_annotations(input_file),
@@ -83,8 +93,8 @@ class CollectionEntityCollection(EntityCollection):
             version=version)
 ```
 
-Once we read the `BratRelation` instances, in further there is a need to perform a conversion to `TextOpinion` 
-is a general type which describes a connection between a pair of objects:
+Once we read the `BratRelation` instances, in further there is a need to perform a conversion to `TextOpinion`.
+TextOpinion is a general type in AREkit framework which describes a connection between a pair of objects mentioned in text:
 ```python
 class CollectionOpinionConverter(object):
 
@@ -98,12 +108,14 @@ class CollectionOpinionConverter(object):
 ```
 
 Now we set everything up in order to finally declare our reader.
+The snippet below provides its implementation:
+
 ```python
 class CollectionNewsReader(object):
 
     @staticmethod
-    def read_text_opinions(filename, doc_id, entities, version, label_formatter):
-        return ZipArchiveUtils.read_from_zip(
+    def read_text_opinions(filename, doc_id, version, label_formatter):
+        return CollectionIOUtils.read_from_zip(
             inner_path=CollectionIOUtils.get_annotation_innerpath(filename),
             process_func=lambda input_file: [
                 CollectionOpinionConverter.to_text_opinion(relation, doc_id, label_formatter)
@@ -118,10 +130,10 @@ class CollectionNewsReader(object):
             sentences = BratDocumentSentencesReader.from_file(input_file, entities)
             return BratNews(doc_id, sentences, text_opinions)
             
-        entities = CollectionEntityCollection.read_collection(filename, synonyms, version)
-        text_opinions = CollectionNewsReader.read_text_opinions(filename, doc_id, entities, 
-            version, label_formatter)
-        return ZipArchiveUtils.read_from_zip(
+        entities = CollectionEntityCollection.read_collection(filename, version)
+        text_opinions = CollectionNewsReader.read_text_opinions(
+            filename, doc_id, version, label_formatter)
+        return CollectionIOUtils.read_from_zip(
             inner_path=CollectionIOUtils.get_news_innerpath(filename),
             process_func=file_to_doc,
             version=version)
