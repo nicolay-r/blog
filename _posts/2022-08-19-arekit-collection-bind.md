@@ -1,4 +1,14 @@
+---
+layout: post
+title: "AREkit Tutorial: Bind a custom annotated collection for Relation Extraction"
+description: "AREkit Tutorial: Bind a custom annotated collection for Relation Extraction"
+category: POST
+tags: [Relation Extraction, BRAT, AREkit]
+---
+
 Souce for annotation usually represent a raw text or provided with the bunch of annotations. The one of the most convinient way for creating and collaborative annotation ediding in Relation Extraction is a BRAT toolset. Besides the nice rendering and clear visualization of the all relations in text, it provides a web-based editor and ability to export the annotated data. However, the exported data is not prepared for most ML-based relation extraction models since it provides all the possible annotations for a single document. In order to simplify and structurize the contents onto text parts with the particular and fixed amount of annotations in it, in this post we propose the AREkit toolset and cover the API which provides an opportunity to bind your custom collection, based on BRAT annotation.
+
+<!--more-->
 
 > NOTE: We may adopt a raw texts, and the latter requred a side application of NER. We remain this behind this post. However, for a greater details on this point you may proceed with the following project.
 
@@ -12,20 +22,18 @@ xxx.txt
 xxx.ann
 ```
 
-First there is a need to establish connection between files and its contents.
-
+Most of the API relies on the collection version. Therefore it is required to provide the details onto versions that your collection support.
+In this post we consider that our collection represents a `V1` version.
 ```python
 class CollectionVersions(Enum):
-    NO = "None"
+    V1 = "None"
 ```
 
-
+Next, there is a need to establish connection between files and its contents.
 ```python
 class CollectionIOUtils(ZipArchiveUtils):
 
-    # Represents an root archive.
     archive_path = "../data/sentiment_dataset.zip"
-    inner_root = "sentiment_dataset"
 
     @staticmethod
     def get_archive_filepath(version):
@@ -40,68 +48,43 @@ class CollectionIOUtils(ZipArchiveUtils):
         return "{}.txt".format(filename)
 
     @staticmethod
-    def __iter_filenames_from_dataset(folder_name):
-        for filename in CollectionIOUtils.iter_filenames_from_zip(CollectionVersions.NO):
-            extension = filename[-4:]
-            filename = filename[:-4]
-            if extension != ".txt":
-                continue
-            if not folder_name in filename: 
-                continue
+    def __iter_filenames_from_dataset():
+        for filename in CollectionIOUtils.iter_filenames_from_zip(CollectionVersions.V1):
             yield basename(filename)
 
     @staticmethod
     def iter_collection_filenames():
-        filenames_it = CollectionIOUtils.__iter_filenames_from_dataset(
-            folder_name=CollectionIOUtils.inner_root)
+        filenames_it = CollectionIOUtils.__iter_filenames_from_dataset()
         for doc_id, filename in enumerate(filenames_it):
             yield doc_id, filename
 ```
 
-
-** PROVIDE DESCRIPTION OF THE IO **
-** reader.py **
+Then since we deal with objects, mentioned in text, based on annotation files (`*.ann` extentions by default):
 ```python
-class CollectionNewsReader(object):
+class CollectionEntityCollection(EntityCollection):
 
-    @staticmethod
-    def read_text_opinions(filename, doc_id, entities, version, label_formatter, keep_any_type):
-        return CollectionIOUtils.read_from_zip(
+    def __init__(self, contents, value_to_group_id_func):
+        super(CollectionEntityCollection, self).__init__(contents["entities"], value_to_group_id_func)
+        self._sort_entities(key=lambda entity: entity.IndexBegin)
+
+    @classmethod
+    def read_collection(cls, filename, synonyms, version):
+        synonyms = StemmerBasedSynonymCollection(iter_group_values_lists=[],
+                                                 stemmer=MystemWrapper(),
+                                                 is_read_only=False,
+                                                 debug=False)
+        return ZipArchiveUtils.read_from_zip(
             inner_path=CollectionIOUtils.get_annotation_innerpath(filename),
-            process_func=lambda input_file: [
-                CollectionOpinionConverter.to_text_opinion(relation, doc_id=doc_id, label_formatter=label_formatter)
-                for relation in
-                BratAnnotationParser.parse_annotations(input_file=input_file, encoding='utf-8-sig')["relations"]
-                if label_formatter.supports_value(relation.Type) or keep_any_type],
+            process_func=lambda input_file: cls(
+                contents=BratAnnotationParser.parse_annotations(input_file),
+                value_to_group_id_func=lambda value:
+                    SynonymsCollectionValuesGroupingProviders.provide_existed_or_register_missed_value(
+                        synonyms, value)),
             version=version)
-
-    @staticmethod
-    def read_document(filename, doc_id, label_formatter, keep_any_opinion):
-        
-        def file_to_doc(input_file):
-            sentences = BratDocumentSentencesReader.from_file(input_file=input_file, entities=entities)
-            return BratNews(doc_id=doc_id, sentences=sentences, text_opinions=opinions)
-
-        synonyms = StemmerBasedSynonymCollection(iter_group_values_lists=[], stemmer=MystemWrapper(),
-                                                 is_read_only=False, debug=False)
-
-        entities = CollectionEntityCollection.read_collection(
-            filename=filename, synonyms=synonyms, version=CollectionVersions.NO)
-
-        opinions = CollectionNewsReader.read_text_opinions(doc_id=doc_id, filename=filename,
-            entities=entities, version=CollectionVersions.NO, label_formatter=label_formatter,
-            keep_any_type=keep_any_opinion)
-
-        return CollectionIOUtils.read_from_zip(
-            inner_path=CollectionIOUtils.get_news_innerpath(filename=filename),
-            process_func=file_to_doc,
-            version=CollectionVersions.NO)
-
 ```
 
 Once we read the `BratRelation` instances, in further there is a need to perform a conversion to `TextOpinion` 
 is a general type which describes a connection between a pair of objects:
-** converter.py **
 ```python
 class CollectionOpinionConverter(object):
 
@@ -114,35 +97,37 @@ class CollectionOpinionConverter(object):
                            label=label_formatter.str_to_label(brat_relation.Type))
 ```
 
-On the last step we declare a custom entities collection:
+Now we set everything up in order to finally declare our reader.
 ```python
-class CollectionEntityCollection(EntityCollection):
+class CollectionNewsReader(object):
 
-    def __init__(self, contents, value_to_group_id_func):
-        super(CollectionEntityCollection, self).__init__(
-            entities=contents["entities"], value_to_group_id_func=value_to_group_id_func)
-        self._sort_entities(key=lambda entity: entity.IndexBegin)
-
-    @classmethod
-    def read_collection(cls, filename, synonyms, version=CollectionVersions.NO):
-        return CollectionIOUtils.read_from_zip(
+    @staticmethod
+    def read_text_opinions(filename, doc_id, entities, version, label_formatter):
+        return ZipArchiveUtils.read_from_zip(
             inner_path=CollectionIOUtils.get_annotation_innerpath(filename),
-            process_func=lambda input_file: cls(
-                contents=BratAnnotationParser.parse_annotations(input_file=input_file, encoding='utf-8-sig'),
-                value_to_group_id_func=lambda value:
-                    SynonymsCollectionValuesGroupingProviders.provide_existed_or_register_missed_value(synonyms, value)),
+            process_func=lambda input_file: [
+                CollectionOpinionConverter.to_text_opinion(relation, doc_id, label_formatter)
+                for relation in BratAnnotationParser.parse_annotations(input_file)["relations"]
+                if label_formatter.supports_value(relation.Type)],
+            version=version)
+
+    @staticmethod
+    def read_document(filename, doc_id, label_formatter, version=CollectionVersions.V1):
+        
+        def file_to_doc(input_file):
+            sentences = BratDocumentSentencesReader.from_file(input_file, entities)
+            return BratNews(doc_id, sentences, text_opinions)
+            
+        entities = CollectionEntityCollection.read_collection(filename, synonyms, version)
+        text_opinions = CollectionNewsReader.read_text_opinions(filename, doc_id, entities, 
+            version, label_formatter)
+        return ZipArchiveUtils.read_from_zip(
+            inner_path=CollectionIOUtils.get_news_innerpath(filename),
+            process_func=file_to_doc,
             version=version)
 ```
 
-Last step:
-** PROVIDE DESCRIPTION OF THE IO **
-** doc_ops.py **
-
-
 Every document is considered to be a list of sentences, where every sentence is an ordinary text. Lets put some details on how we perform reading ...
-
-
-
 
 -------------------------------------
 NEXT POSTs
