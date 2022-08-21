@@ -6,6 +6,8 @@ category: POST
 tags: [Relation Extraction, BRAT, AREkit]
 ---
 
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/custom-collection-binding.png)
+
 Source for annotation usually represent a raw text or provided with the bunch of annotations. The one of the most convinient way for creating and collaborative annotation ediding in Relation Extraction is a BRAT toolset. Besides the nice rendering and clear visualization of the all relations in text, it provides a web-based editor and ability to export the annotated data. However, the exported data is not prepared for most ML-based relation extraction models since it provides all the possible annotations for a single document. In order to simplify and structurize the contents onto text parts with the particular and fixed amount of annotations in it, in this post we propose the AREkit toolset and cover the API which provides an opportunity to bind your custom collection, based on BRAT annotation.
 
 
