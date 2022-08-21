@@ -38,6 +38,7 @@ Source-related contribution part provides API for interaction with contents in `
 To adopt the latter we provide an inherited class by declaring the following information: 
 * archive filepath
 * news and annotation filenames
+
 ```python
 class FooIOUtils(ZipArchiveUtils):
 
@@ -171,6 +172,14 @@ The example output is as follows:
 24 25 <class 'labels.types.NegativeTo'>
 29 30 <class 'labels.types.NegativeTo'>
 ```
+
+Finally we have a `BratNews` instance which contains information about mentioned named entities
+and relations. In next posts we provide details on cases when this type of news might be utilized, 
+for such cases as
+ * text parsing, 
+ * data sampling, and so on. 
+
+Thank you for reading this post!
 
 -------------------------------------
 NEXT POSTs
