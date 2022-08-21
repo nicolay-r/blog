@@ -8,11 +8,16 @@ tags: [Relation Extraction, BRAT, AREkit]
 
 Source for annotation usually represent a raw text or provided with the bunch of annotations. The one of the most convinient way for creating and collaborative annotation ediding in Relation Extraction is a BRAT toolset. Besides the nice rendering and clear visualization of the all relations in text, it provides a web-based editor and ability to export the annotated data. However, the exported data is not prepared for most ML-based relation extraction models since it provides all the possible annotations for a single document. In order to simplify and structurize the contents onto text parts with the particular and fixed amount of annotations in it, in this post we propose the AREkit toolset and cover the API which provides an opportunity to bind your custom collection, based on BRAT annotation.
 
+
 <!--more-->
 
 > NOTE: We may adopt a raw texts, and the latter required a side application of NER. We remain this behind this post. However, for a greater details on this point you may proceed with the following project.
 
-Lets get started ... Considering that we have a collection `foo.zip` 
+Lets get started ... 
+
+
+Considering that we have a collection `foo.zip` 
+([download here](https://github.com/nicolay-r/AREkit/blob/master/tests/tutorials/data/foo.zip?raw=true)) 
 with the following structure, presented in a form of the archive:
 
 ```
@@ -24,10 +29,15 @@ foo.zip/
     xxx.ann
 ```
 
-In this tutorial we rely on [AREkit-0.22.1](https://github.com/nicolay-r/AREkit).
+In this tutorial we rely on [AREkit-0.22.1](https://github.com/nicolay-r/AREkit). 
+You may proceed with the complete test example or follow the snippets in this tutorial.
+
+> [Link to the complete code tutorial](https://github.com/nicolay-r/AREkit/blob/master/tests/tutorials/test_tutorial_collection_binding.py)
+
 Most of the API relies on the collection version.
 Therefore it is required to provide the details onto versions that your collection support.
 In this post we consider that our collection represents a `V1` version.
+
 ```python
 class FooVersions(Enum):
     V1 = "V1"
@@ -109,19 +119,18 @@ class FooDocReader(object):
     def read_text_relations(filename, version):
         return FooIOUtils.read_from_zip(
             inner_path=FooIOUtils.get_annotation_innerpath(filename),
-            process_func=lambda input_file: [relation for relation in 
+            process_func=lambda input_file: [relation for relation in
                 BratAnnotationParser.parse_annotations(input_file)["relations"]],
             version=version)
 
     @staticmethod
-    def read_document(filename, doc_id, version=CollectionVersions.V1):
-        
+    def read_document(filename, doc_id, version=FooVersions.V1):
         def file_to_doc(input_file):
             sentences = BratDocumentSentencesReader.from_file(input_file, entities)
             return BratNews(doc_id, sentences, text_relations)
-            
+
         entities = FooEntityCollection.read_collection(filename, version)
-        text_relations = CollectionNewsReader.read_text_relations(filename, version)
+        text_relations = FooDocReader.read_text_relations(filename, version)
 
         return FooIOUtils.read_from_zip(
             inner_path=FooIOUtils.get_news_innerpath(filename),
@@ -173,10 +182,11 @@ The example output is as follows:
 29 30 NegativeTo
 ```
 
+Thank you for reading and completing so!
+
 Finally we have a `BratNews` instance which contains information about mentioned named entities
 and relations. In next posts we provide details on cases when this type of news might be utilized, 
 for such cases as
  * text parsing, 
  * data sampling, and so on. 
 
-Thank you for reading this post!
