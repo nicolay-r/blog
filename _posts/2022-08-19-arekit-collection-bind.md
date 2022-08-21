@@ -166,11 +166,11 @@ The example output is as follows:
 ...
 ...
 ...
-1 2 <class 'labels.types.PositiveTo'>
-5 4 <class 'labels.types.PositiveTo'>
-21 20 <class 'labels.types.PositiveTo'>
-24 25 <class 'labels.types.NegativeTo'>
-29 30 <class 'labels.types.NegativeTo'>
+1 2 PositiveTo
+5 4 PositiveTo
+21 20 PositiveTo
+24 25 NegativeTo
+29 30 NegativeTo
 ```
 
 Finally we have a `BratNews` instance which contains information about mentioned named entities
@@ -180,9 +180,3 @@ for such cases as
  * data sampling, and so on. 
 
 Thank you for reading this post!
-
--------------------------------------
-NEXT POSTs
-
-The collection binding denotes that we may declare API for our custom dataset in order to provide `ParsedNews`.
-Parsed news represent a tokenized version of the document contents, i.e. the in a form of a sequence of the separated terms where every term might relate to any type. The common types are: words or entities.
