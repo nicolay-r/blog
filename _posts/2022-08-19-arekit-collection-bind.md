@@ -12,11 +12,11 @@ Source for annotation usually represent a raw text or provided with the bunch of
 
 > NOTE: We may adopt a raw texts, and the latter required a side application of NER. We remain this behind this post. However, for a greater details on this point you may proceed with the following project.
 
-Lets get started ... Considering that we have a collection with the following structure of the `collection`, 
-presented in a form of the archive:
+Lets get started ... Considering that we have a collection `foo.zip` 
+with the following structure, presented in a form of the archive:
 
 ```
-collection.zip/
+foo.zip/
     1.txt
     1.ann
     ...
@@ -29,7 +29,7 @@ Most of the API relies on the collection version.
 Therefore it is required to provide the details onto versions that your collection support.
 In this post we consider that our collection represents a `V1` version.
 ```python
-class CollectionVersions(Enum):
+class FooVersions(Enum):
     V1 = "V1"
 ```
 
@@ -39,13 +39,13 @@ To adopt the latter we provide an inherited class by declaring the following inf
 * archive filepath
 * news and annotation filenames
 ```python
-class CollectionIOUtils(ZipArchiveUtils):
+class FooIOUtils(ZipArchiveUtils):
 
-    archive_path = "../data/sentiment_dataset.zip"
+    archive_path = "foo.zip"
 
     @staticmethod
     def get_archive_filepath(version):
-        return CollectionIOUtils.archive_path
+        return FooIOUtils.archive_path
 
     @staticmethod
     def get_annotation_innerpath(filename):
@@ -57,12 +57,12 @@ class CollectionIOUtils(ZipArchiveUtils):
 
     @staticmethod
     def __iter_filenames_from_dataset():
-        for filename in CollectionIOUtils.iter_filenames_from_zip(CollectionVersions.V1):
+        for filename in FooIOUtils.iter_filenames_from_zip(FooVersions.V1):
             yield basename(filename)
 
     @staticmethod
     def iter_collection_filenames():
-        filenames_it = CollectionIOUtils.__iter_filenames_from_dataset()
+        filenames_it = FooIOUtils.__iter_filenames_from_dataset()
         for doc_id, filename in enumerate(filenames_it):
             yield doc_id, filename
 ```
@@ -78,18 +78,18 @@ below we declare an empty and exapandable collection.
 as for lemmatized AREkit provides a wrapper over Mystem (for Russian words)
 
 ```python
-class CollectionEntityCollection(EntityCollection):
+class FooEntityCollection(EntityCollection):
 
     def __init__(self, contents, value_to_group_id_func):
-        super(CollectionEntityCollection, self).__init__(contents["entities"], value_to_group_id_func)
+        super(FooEntityCollection, self).__init__(contents["entities"], value_to_group_id_func)
         self._sort_entities(key=lambda entity: entity.IndexBegin)
 
     @classmethod
     def read_collection(cls, filename, version):
         synonyms = StemmerBasedSynonymCollection(
             iter_group_values_lists=[], stemmer=MystemWrapper(), is_read_only=False, debug=False)
-        return CollectionIOUtils.read_from_zip(
-            inner_path=CollectionIOUtils.get_annotation_innerpath(filename),
+        return FooIOUtils.read_from_zip(
+            inner_path=FooIOUtils.get_annotation_innerpath(filename),
             process_func=lambda input_file: cls(
                 contents=BratAnnotationParser.parse_annotations(input_file),
                 value_to_group_id_func=lambda value:
@@ -98,69 +98,32 @@ class CollectionEntityCollection(EntityCollection):
             version=version)
 ```
 
-Label Formatter is required for matching text-based presentation of a label with the related `Label` type in Python.
-Considering that our collection describes sentiment relatations between mentined named entities (positive or negative).
-Here is how the latter could be implemented:
-```python
-class NegativeTo(Label):
-    pass
-
-class PositiveTo(Label):
-    pass
-
-class CollectionLabelFormatter():
-    def __init__(self):
-        stol = {
-            "NEGATIVE_TO": labels.NegativeTo,
-            "POSITIVE_TO": labels.PositiveTo,
-        }
-
-    super(SentimentLabelFormatter, self).__init__(stol=stol)
-```
-
-
-Once we read the `BratRelation` instances, in further there is a need to perform a conversion to `TextOpinion`.
-TextOpinion is a general type in AREkit framework which describes a connection between a pair of objects mentioned in text:
-```python
-class CollectionOpinionConverter(object):
-
-    @staticmethod
-    def to_text_opinion(brat_relation, doc_id, label_formatter):
-        return TextOpinion(doc_id=doc_id,
-                           text_opinion_id=int(brat_relation.ID),
-                           source_id=brat_relation.SourceID,
-                           target_id=brat_relation.TargetID,
-                           label=label_formatter.str_to_label(brat_relation.Type))
-```
-
 Now we set everything up in order to finally declare our reader.
 The snippet below provides its implementation:
 
 ```python
-class CollectionDocReader(object):
+class FooDocReader(object):
 
     @staticmethod
-    def read_text_opinions(filename, doc_id, version, label_formatter):
-        return CollectionIOUtils.read_from_zip(
-            inner_path=CollectionIOUtils.get_annotation_innerpath(filename),
-            process_func=lambda input_file: [
-                CollectionOpinionConverter.to_text_opinion(relation, doc_id, label_formatter)
-                for relation in BratAnnotationParser.parse_annotations(input_file)["relations"]
-                if label_formatter.supports_value(relation.Type)],
+    def read_text_relations(filename, version):
+        return FooIOUtils.read_from_zip(
+            inner_path=FooIOUtils.get_annotation_innerpath(filename),
+            process_func=lambda input_file: [relation for relation in 
+                BratAnnotationParser.parse_annotations(input_file)["relations"]],
             version=version)
 
     @staticmethod
-    def read_document(filename, doc_id, label_formatter, version=CollectionVersions.V1):
+    def read_document(filename, doc_id, version=CollectionVersions.V1):
         
         def file_to_doc(input_file):
             sentences = BratDocumentSentencesReader.from_file(input_file, entities)
-            return BratNews(doc_id, sentences, text_opinions)
+            return BratNews(doc_id, sentences, text_relations)
             
-        entities = CollectionEntityCollection.read_collection(filename, version)
-        text_opinions = CollectionNewsReader.read_text_opinions(
-            filename, doc_id, version, label_formatter)
-        return CollectionIOUtils.read_from_zip(
-            inner_path=CollectionIOUtils.get_news_innerpath(filename),
+        entities = FooEntityCollection.read_collection(filename, version)
+        text_relations = CollectionNewsReader.read_text_relations(filename, version)
+
+        return FooIOUtils.read_from_zip(
+            inner_path=FooIOUtils.get_news_innerpath(filename),
             process_func=file_to_doc,
             version=version)
 ```
@@ -171,25 +134,19 @@ Every document is considered to be a list of sentences, where every sentence is 
 
 Now we can adopt the collection reader in order to receive an instances with annotated named entities (`BratNews`).
 We first provide the information about every sentences, i.e. the related text and list of mentioned named entities in it.
-Then, using `TextOpinion` property, we display list of all the relations presented in annotation file.
+Then, using `Relations property, we display list of all the relations presented in annotation file.
 
 ```python
-
-news = CollectionDocReader.read_document("0", doc_id=0, label_formatter=CollectionLabelFormatter())
-assert(isinstance(news, BratNews))
+news = FooDocReader.read_document("0", doc_id=0)
 for sentence in news.iter_sentences():
-    assert(isinstance(sentence, BratSentence))
     print(sentence.Text.strip())
     for entity, bound in sentence.iter_entity_with_local_bounds():
         print("{}: ['{}',{}, {}]".format(
             entity.ID, entity.Value, entity.Type, 
             "-".join([str(bound.Position), str(bound.Position+bound.Length)])))
 
-    print()
-
-for text_opinion in news.TextOpinions:
-    assert(isinstance(text_opinion, TextOpinion))
-    print(text_opinion.SourceId, text_opinion.TargetId, str(type(text_opinion.Sentiment)))
+for brat_relation in news.Relations:
+    print(brat_relation.SourceID, brat_relation.TargetID, brat_relation.Type)
 ```
 
 The example output is as follows:
