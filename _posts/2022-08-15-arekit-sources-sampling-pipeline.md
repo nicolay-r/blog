@@ -6,7 +6,7 @@ category: POST
 tags: [Relation Extraction, Pipelines, Processing, AREkit]
 ---
 
-![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-sources-sampling.png)
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-sources-sampling-pipeline.png)
 
 We are finally ready to annonce the workflow of data-processing organization in AREkit for sampling laa....aaarge collection of documents!
 Here, the `Laa....aarge` denotes that the whole workflow could be treated as iterator of document collection. 
