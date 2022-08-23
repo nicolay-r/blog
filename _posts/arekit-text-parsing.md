@@ -157,7 +157,7 @@ The snippet above could be modified with
 ```python
 text_parser = BaseTextParser(pipeline=[
     # ... lemmatized representation
-    LemmasBasedFrameVariantsParser(frame_variants=exp_ctx.FrameVariantCollection, stemmer=MystemWrapper())]
+    LemmasBasedFrameVariantsParser(frame_variants=frame_variant_collection, stemmer=MystemWrapper())]
 ])
 ```
 
