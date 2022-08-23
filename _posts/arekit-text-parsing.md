@@ -1,14 +1,13 @@
 ---
 layout: post
-title: "AREkit Tutorial: Compose your text-processing pipeline"
-description: "AREkit Tutorial: Compose your text-processing pipeline"
+title: "AREkit Tutorial: Compose your text-processing pipeline!"
+description: "AREkit Tutorial: Compose your text-processing pipeline!"
 category: POST
 tags: [Pipelines, Frames, Tokenization, Named Entity Recognition, NER, AREkit]
 ---
 
 ![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/areki-text-parsing.png)
 
-Examples of the text processings.
 
 In [AREkit-0.22.1](https://github.com/nicolay-r/AREkit), 
 we provide `BaseTextParser` which assumes to apply a series of text processing items, organized in a form of the `PipelineItem`'s,
@@ -72,6 +71,7 @@ text_parser = BaseTextParser([
     BertOntonotesNERPipelineItem(lambda s_obj: s_obj.ObjectType in ["ORG", "PERSON", "LOC", "GPE"])
 ])
 ```
+
 ## Tokens and Terms Annotation
 
 Besides the mentioned named entities itself, mostly there is a need to separate words from each other.
@@ -91,10 +91,10 @@ text_parser = BaseTextParser([
 
 ## Frames Annotation
 
-Frames, i.e. certain words or prases in text, are useful in certain Relation Extraction problems since they may emphasize the presence of the relation.
-In terms of Sentiment Analysis, these might be entries that convey the presence of the sentiment attutdies from subjects towards objects.
+*Frames*, -- certain words or prases in text that may emphasize the presence of the relation, are useful in Relation Extraction problems.
+In terms of the Sentiment Analysis task, these might be entries that convey the presence of the sentiment attutdies from one object towards the other.
 
-In AREkit-0.22.1 we provide API for declararing custom `FramesVariantsCollection`'s. 
+In AREkit-0.22.1 we provide [declaration](https://github.com/nicolay-r/AREkit/blob/629ee6d2705980b4a7ad792faa3f7baae5b57973/arekit/common/frames/variants/collection.py#L5) of the `FramesVariantsCollection`'s. 
 This collection allows to keep frame variants (`FrameVariant`) for a given frame ID.
 For studies in Russian we provide `RuSentiFramesCollection` which provides connotation frames that conveys the presence of sentiment relations from Agent (`A0`) towards Theme (`A1`) with such sentimnets as: *positive* (`PositiveTo` in the following example) and *negative* (`NegativeTo`). 
 Frames collection initialization could be performed as follows:
@@ -136,5 +136,14 @@ The snippet above could be modified with
 text_parser = BaseTextParser(pipeline=[
     # ... lemmatized representation
     LemmasBasedFrameVariantsParser(frame_variants=exp_ctx.FrameVariantCollection, stemmer=MystemWrapper())]
+])
+```
+
+We may also adopt sentiment *negations* for frame variants, which allows us to invert sentiment score due to the particular prepositions.
+This feature is available for Russian texts.
+```python
+text_parser = BaseTextParser(pipeline=[
+    # ... 
+    FrameVariantsSentimentNegation()
 ])
 ```
