@@ -54,6 +54,16 @@ text_parser = BaseTextParser([
     BratTextEntitiesParser(partitioning="string")
 ])
 ```
+We may also deal with texts, in which entities are annotated by keeping so in a square brackets.
+For such cases you may adopt the [following](https://github.com/nicolay-r/ARElight/blob/74d424b38589fe5038518229a17ca32f2dd97867/arelight/text/pipeline_entities_default.py#L5) parser:
+> NOTE: This parser is declared outside from the AREkit.
+
+```python
+text_parser = BaseTextParser([
+    # ... 
+    TextEntitiesParser(keep_tokens=True),
+])
+```
 
 In case of a raw texts we deal with the NER task, dubbed as *Named Entity Recognition* problem.
 > **NOTE:** We cover this scenario in a greater deails as a part of the 
@@ -63,7 +73,8 @@ we left so outside of the following post and kindly refer you to the related pro
 in examine so in a greater details
 
 The snippet below illustrates on how the `BERT_ontonotes` model could be adopted for an automatic 
-named entities annotation:
+named entities annotation ([see the details](https://github.com/nicolay-r/ARElight/blob/74d424b38589fe5038518229a17ca32f2dd97867/arelight/text/pipeline_entities_bert_ontonotes.py#L9) 
+of the `BertOntonotesNERPipelineItem` implementation):
 
 ```python
 text_parser = BaseTextParser([
@@ -72,9 +83,20 @@ text_parser = BaseTextParser([
 ])
 ```
 
+
 ## Tokens and Terms Annotation
 
 Besides the mentioned named entities itself, mostly there is a need to separate words from each other.
+In siple case `TesrmsSplitterParser` allows to perform separation by a known separator (whitespaces by default), and declare so as follows:
+(see class [implemetation](https://github.com/nicolay-r/AREkit/blob/629ee6d2705980b4a7ad792faa3f7baae5b57973/arekit/contrib/utils/pipelines/items/text/terms_splitter.py#L6) for a greater details)
+
+```python
+text_parser = BaseTextParser([
+    # ... 
+    TermsSplitterParser(keep_tokens=True),
+])
+```
+
 We treat this operation in this post as a *tokenization* process. 
 [AREkit-0.22.1](https://github.com/nicolay-r/AREkit) provides a `DefaultTextTokenizer` for so. 
 This tokenizer allows us to demarcate words from such text constructions as: 
@@ -88,6 +110,8 @@ text_parser = BaseTextParser([
     DefaultTextTokenizer(keep_tokens=True),
 ])
 ```
+
+
 
 ## Frames Annotation
 
