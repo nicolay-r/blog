@@ -169,3 +169,10 @@ text_parser = BaseTextParser(pipeline=[
     FrameVariantsSentimentNegation()
 ])
 ```
+
+## Conclusion
+
+Congratulations! Now you're into details on how your custom text pipeline could be gathered!
+
+Once we composed our text processing pipeline, we may then declare our *data-formatting pipeline* and describe on how we would like to annotated connection between text objects, applying filtering rules and declaring other restrictions on so. 
+The latter is a part of our next posts so stay connected for a greater details.
