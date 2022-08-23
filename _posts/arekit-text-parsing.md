@@ -135,8 +135,8 @@ frames_collection = RuSentiFramesCollection.read_collection(
         pos_label_type=PositiveTo, neg_label_type=NegativeTo),
     effect_labels_fmt=RuSentiFramesEffectLabelsFormatter(
         pos_label_type=PositiveTo, neg_label_type=NegativeTo))
-    frame_variant_collection = FrameVariantsCollection())
-  
+
+frame_variant_collection = FrameVariantsCollection()
 frame_variant_collection.fill_from_iterable(
     variants_with_id=frames_collection.iter_frame_id_and_variants(),
     overwrite_existed_variant=True,
