@@ -113,8 +113,9 @@ text_parser = BaseTextParser([
 
 ## Frames Annotation
 
-*Frames*, -- certain words or prases in text that may emphasize the presence of the relation, are useful in Relation Extraction problems.
-In terms of the Sentiment Analysis task, these might be entries that convey the presence of the sentiment attutdies from one object towards the other.
+*Frames*, -- is a certain text words or prases that may emphasize the presence of the relation
+Frames are useful in certain Machine Learning models, designed to solve Relation Extraction problems.
+In terms of the such task as *Sentiment Analysis*, frames might be entries that convey the presence of the sentiment attutdies from one object towards the other.
 
 In AREkit-0.22.1 we provide [declaration](https://github.com/nicolay-r/AREkit/blob/629ee6d2705980b4a7ad792faa3f7baae5b57973/arekit/common/frames/variants/collection.py#L5) of the `FramesVariantsCollection`'s. 
 This collection allows to keep frame variants (`FrameVariant`) for a given frame ID.
