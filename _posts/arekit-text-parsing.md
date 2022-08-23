@@ -6,7 +6,7 @@ category: POST
 tags: [Pipelines, Frames, Tokenization, Named Entity Recognition, NER, AREkit]
 ---
 
-![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/areki-text-parsing.png)
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-text-parsing.png)
 
 
 In [AREkit-0.22.1](https://github.com/nicolay-r/AREkit), 
