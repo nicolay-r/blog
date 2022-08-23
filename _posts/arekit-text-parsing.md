@@ -1,3 +1,13 @@
+---
+layout: post
+title: "AREkit Tutorial: Compose your text-processing pipeline"
+description: "AREkit Tutorial: Compose your text-processing pipeline"
+category: POST
+tags: [Pipelines, Frames, Tokenization, Named Entity Recognition, NER, AREkit]
+---
+
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/areki-text-parsing.png)
+
 Examples of the text processings.
 
 In [AREkit-0.22.1](https://github.com/nicolay-r/AREkit), 
@@ -5,6 +15,8 @@ we provide `BaseTextParser` which assumes to apply a series of text processing i
 in order to modify the text contents with the annotated objects in it. 
 The common class which is related to performing transformation from the original `News` towards the processed one is a `BaseTextParser`, which receives
 a pipeline of the **annotations** expected to be applied towards a news text:
+
+<!--more-->
 
 ```python
 text_parser = BaseTextParser(pipeline=[ 
@@ -32,12 +44,15 @@ the latter might be accomplished automatically.
 We may encounter with the predefined annotation once we treating the BRAT-based collections, 
 or other collections that provides such annotation by default and performed by the 
 [embedded](https://github.com/nicolay-r/AREkit/blob/629ee6d2705980b4a7ad792faa3f7baae5b57973/arekit/contrib/source/brat/entities/parser.py#L8) 
-`BratTextEntitiesParser`:
+`BratTextEntitiesParser`.
+
+> **NOTE:** We may consider a different partitioning formats of the original text of `News` instance:
+`string` for the case when every sentence of the news represented in a form of the strings, and
+`terms` when we deal with list of tokens as a contents of every sentence.
 
 ```python
-# For the already known Named-Entities, provided by the BRAT-based collection.
 text_parser = BaseTextParser([
-    BratTextEntitiesParser()
+    BratTextEntitiesParser(partitioning="string")
 ])
 ```
 
@@ -53,10 +68,11 @@ named entities annotation:
 
 ```python
 text_parser = BaseTextParser([
+    # considering to apply BERT-ontonotes model and pick only specific object types.
     BertOntonotesNERPipelineItem(lambda s_obj: s_obj.ObjectType in ["ORG", "PERSON", "LOC", "GPE"])
 ])
 ```
-## Terms annotation
+## Tokens and Terms Annotation
 
 Besides the mentioned named entities itself, mostly there is a need to separate words from each other.
 We treat this operation in this post as a *tokenization* process. 
@@ -73,7 +89,7 @@ text_parser = BaseTextParser([
 ])
 ```
 
-## Frames annotation
+## Frames Annotation
 
 Frames, i.e. certain words or prases in text, are useful in certain Relation Extraction problems since they may emphasize the presence of the relation.
 In terms of Sentiment Analysis, these might be entries that convey the presence of the sentiment attutdies from subjects towards objects.
@@ -92,10 +108,10 @@ class NegativeTo(Label): # declaring extra-class for describing negative label
 
 frames_collection = RuSentiFramesCollection.read_collection(
     version=RuSentiFramesVersions.V20,
-    labels_fmt=RuSentiFramesLabelsFormatter(pos_label_type=PositiveTo, 
-                                            neg_label_type=NegativeTo),
-    effect_labels_fmt=RuSentiFramesEffectLabelsFormatter(pos_label_type=PositiveTo, 
-                                                         neg_label_type=NegativeTo))
+    labels_fmt=RuSentiFramesLabelsFormatter(
+        pos_label_type=PositiveTo, neg_label_type=NegativeTo),
+    effect_labels_fmt=RuSentiFramesEffectLabelsFormatter(
+        pos_label_type=PositiveTo, neg_label_type=NegativeTo))
     frame_variant_collection = FrameVariantsCollection()
     frame_variant_collection.fill_from_iterable(
         variants_with_id=frames_collection.iter_frame_id_and_variants(),
