@@ -56,7 +56,7 @@ text_parser = BaseTextParser([
 ```
 We may also deal with texts, in which entities are annotated by keeping so in a square brackets.
 For such cases you may adopt the [following](https://github.com/nicolay-r/ARElight/blob/74d424b38589fe5038518229a17ca32f2dd97867/arelight/text/pipeline_entities_default.py#L5) parser:
-> NOTE: This parser is declared outside from the AREkit.
+> NOTE: This parser is a part of the side project [ARElight](https://github.com/nicolay-r/ARElight)
 
 ```python
 text_parser = BaseTextParser([
@@ -66,15 +66,13 @@ text_parser = BaseTextParser([
 ```
 
 In case of a raw texts we deal with the NER task, dubbed as *Named Entity Recognition* problem.
-> **NOTE:** We cover this scenario in a greater deails as a part of the 
-[ARElight](https://github.com/nicolay-r/ARElight/blob/v0.22.1/arelight/text/ner_ontonotes.py) project, 
-by adopting BERT models for NER via DeepPavlov framework (`BertOntonotesNER` class); 
-we left so outside of the following post and kindly refer you to the related project once there is a need 
-in examine so in a greater details
-
 The snippet below illustrates on how the `BERT_ontonotes` model could be adopted for an automatic 
 named entities annotation ([see the details](https://github.com/nicolay-r/ARElight/blob/74d424b38589fe5038518229a17ca32f2dd97867/arelight/text/pipeline_entities_bert_ontonotes.py#L9) 
 of the `BertOntonotesNERPipelineItem` implementation):
+> **NOTE:** We cover this scenario in a greater deails as a part of the 
+[ARElight](https://github.com/nicolay-r/ARElight/blob/v0.22.1/arelight/text/ner_ontonotes.py) project
+by adopting BERT models for NER using [DeepPavlov](https://deeppavlov.ai/) framework (`BertOntonotesNER` class); 
+we left so outside of the following post and kindly refer you to the related project.
 
 ```python
 text_parser = BaseTextParser([
