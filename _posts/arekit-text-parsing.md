@@ -83,12 +83,12 @@ text_parser = BaseTextParser([
 ])
 ```
 
-
 ## Tokens and Terms Annotation
 
 Besides the mentioned named entities itself, mostly there is a need to separate words from each other.
-In siple case `TesrmsSplitterParser` allows to perform separation by a known separator (whitespaces by default), and declare so as follows:
-(see class [implemetation](https://github.com/nicolay-r/AREkit/blob/629ee6d2705980b4a7ad792faa3f7baae5b57973/arekit/contrib/utils/pipelines/items/text/terms_splitter.py#L6) for a greater details)
+In siple case `TesrmsSplitterParser` allows to perform separation by a known separator (whitespaces by default),
+and declare so as follows (see class [implementation](https://github.com/nicolay-r/AREkit/blob/629ee6d2705980b4a7ad792faa3f7baae5b57973/arekit/contrib/utils/pipelines/items/text/terms_splitter.py#L6) 
+for a greater details)
 
 ```python
 text_parser = BaseTextParser([
@@ -97,7 +97,7 @@ text_parser = BaseTextParser([
 ])
 ```
 
-We treat this operation in this post as a *tokenization* process. 
+For a detailed analysis, we treat this stage as a *tokenization* process. 
 [AREkit-0.22.1](https://github.com/nicolay-r/AREkit) provides a `DefaultTextTokenizer` for so. 
 This tokenizer allows us to demarcate words from such text constructions as: 
 * Punctuation signs 
@@ -110,8 +110,6 @@ text_parser = BaseTextParser([
     DefaultTextTokenizer(keep_tokens=True),
 ])
 ```
-
-
 
 ## Frames Annotation
 
