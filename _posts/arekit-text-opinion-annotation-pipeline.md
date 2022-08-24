@@ -16,6 +16,8 @@ The result markup could be then used for samples generation -- data, which is re
 
 <!--more-->
 
+> [Example code for the tutorial](https://github.com/nicolay-r/AREkit/blob/af7c951d871a693a25a0a7c72e8a0ff5ba559c4a/tests/tutorials/test_tutorial_pipeline_text_opinion_annotation.py#L43)
+
 The snippet below illustrates the core function `text_opinion_extraction_pipeline`, pipeline, which allows us to 
 
 ```python
@@ -61,9 +63,8 @@ You may refer to that post for a greater details on how reader might be implemen
 The snippet below illustrates on how the related reader might be wrapped into DocumentOperations
 
 ```python
-class DocumentOperations(object):
+class DocumentOperations(DocumentOperations):
     def get_doc(self, doc_id):
-        # Provide document reader.
         return FooDocReader.read_document(str(doc_id), doc_id=doc_id)
 ```
 
@@ -85,8 +86,8 @@ The snippet below illustrates an example of the custom label formatter for a cou
 ```python
 class CustomLabelsFormatter(StringLabelsFormatter):
     def __init__(self, pos_label_type, neg_label_type):
-        stol = {`neg`: neg_label_type, `pos`: pos_label_type}
-        super(RuSentRelLabelsFormatter, self).__init__(stol=stol)
+        stol = {"neg": neg_label_type, "pos": pos_label_type}
+        super(CustomLabelsFormatter, self).__init__(stol=stol)
 ```
 
 Simple predefined annotator for the case, when we already have annotated text opinions (like BRAT-based collections). 
@@ -94,8 +95,10 @@ For texts in Russian, this might be a [NEREL collection](https://github.com/nere
 The snipped below illstrates on how the annotator of the predefined relations might be implemented:
 ```python
 predefined_annotator = PredefinedTextOpinionAnnotator(
-    doc_ops=doc_ops, 
-    label_formatter=CustomLabelsFormatter(label_scaler))
+    doc_ops=doc_ops,
+    label_formatter=CustomLabelsFormatter(
+        pos_label_type=PositiveLabel,
+        neg_label_type=NegativeLabel))
 ```
 
 Sometimes, the annotation might be provided on document level, like in [RuSentRel](https://github.com/nicolay-r/RuSentRel).
@@ -123,13 +126,19 @@ def __get_document_opinions(doc_id, synonyms, labels_fmt):
         error_on_duplicates=True)
 ```
 
-No label algorithm-based opinion annotator. By default, AREkit-0.22.1 provides a `NoLabel` instance.
+No label algorithm-based opinion annotator. 
+As for the snippet above, it will be also required a synonyms collection,
+which is a `StemmerBasedSynonymCollection` in our case by default, based on the Yandex Mystem stemmer.
+By default, AREkit-0.22.1 provides a `NoLabel` instance.
 
 ```python
+synonyms = StemmerBasedSynonymCollection(
+    iter_group_values_lists=[], stemmer=MystemWrapper(), is_read_only=False, debug=False)
+
 nolabel_annotator = AlgorithmBasedTextOpinionAnnotator(
     annot_algo=PairBasedOpinionAnnotationAlgorithm(
-        dist_in_sents=dist_in_sentences,
-        dist_in_terms_bound=terms_per_context,
+        dist_in_sents=0,
+        dist_in_terms_bound=50,
         label_provider=ConstantLabelProvider(NoLabel())),
     create_empty_collection_func=lambda: OpinionCollection(
         opinions=[], synonyms=synonyms, error_on_duplicates=True, error_on_synonym_end_missed=False),
