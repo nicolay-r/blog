@@ -56,7 +56,7 @@ class DocumentOperations(object):
 ```
 
 Our blog already covers the question on 
-[how the external collection might be binded in AREkit](https://nicolay-r.github.io/blog/articles/2022-08/arekit-collection-bind).
+[AREkit Tutorial: Binding a custom annotated collection for Relation Extraction](https://nicolay-r.github.io/blog/articles/2022-08/arekit-collection-bind).
 You may refer to that post for a greater details on how reader might be implemented for a `foo` example collection. 
 The snippet below illustrates on how the related reader might be wrapped into DocumentOperations
 
@@ -68,7 +68,7 @@ class DocumentOperations(object):
 ```
 
 At last, as for the `text_parser` parameter, we also have a post which covers it in a greater details.
-Please refer to the [related post]()
+Please refer to the [AREkit Tutorial: Compose your text-processing pipeline!](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-parsing-pipeline) for the related details.
 
 ## Text Opinion Annotators
 
