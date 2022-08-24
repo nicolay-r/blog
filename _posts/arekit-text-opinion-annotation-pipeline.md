@@ -45,7 +45,7 @@ By default, AREkit-0.22.1 provides the following filters for text opinions:
 * `DistanceLimitedTextOpinionFilter` -- filter based on distance between mentioned named entities (in terms)
 * `FrameworkLimitationsTextOpinionFilter` -- limitations that should be considered due to specifics of the internal fucntionality implementation.
 
-> **NOTE** -- `FrameworkLimitationsTextOpinionFilter` is an internal limitations which is applied by default so there is no need to declare them 
+> **NOTE**: `FrameworkLimitationsTextOpinionFilter` is an internal limitations which is applied by default so there is no need to declare them 
 manually, but it might be better to consider already known limitations for your personal needs.
 
 In order to deal with data and prove the related docuemnts, it is necessary to declare `DocumentOperations` interface.
@@ -63,7 +63,7 @@ You may refer to that post for a greater details on how reader might be implemen
 The snippet below illustrates on how the related reader might be wrapped into DocumentOperations
 
 ```python
-class DocumentOperations(DocumentOperations):
+class FooDocumentOperations(DocumentOperations):
     def get_doc(self, doc_id):
         return FooDocReader.read_document(str(doc_id), doc_id=doc_id)
 ```
@@ -94,11 +94,16 @@ Simple predefined annotator for the case, when we already have annotated text op
 For texts in Russian, this might be a [NEREL collection](https://github.com/nerel-ds/NEREL).
 The snipped below illstrates on how the annotator of the predefined relations might be implemented:
 ```python
+class PositiveLabel(Label):
+    pass
+
+class NegativeLabel(Label):
+    pass
+
 predefined_annotator = PredefinedTextOpinionAnnotator(
     doc_ops=doc_ops,
-    label_formatter=CustomLabelsFormatter(
-        pos_label_type=PositiveLabel,
-        neg_label_type=NegativeLabel))
+    label_formatter=CustomLabelsFormatter(pos_label_type=PositiveLabel,
+                                          neg_label_type=NegativeLabel))
 ```
 
 Sometimes, the annotation might be provided on document level, like in [RuSentRel](https://github.com/nicolay-r/RuSentRel).
@@ -144,8 +149,7 @@ nolabel_annotator = AlgorithmBasedTextOpinionAnnotator(
         opinions=[], synonyms=synonyms, error_on_duplicates=True, error_on_synonym_end_missed=False),
     get_doc_existed_opinions_func=lambda _: None,
         value_to_group_id_func=lambda value:
-            SynonymsCollectionValuesGroupingProviders.provide_existed_value(
-                synonyms=synonyms, value=value))
+            SynonymsCollectionValuesGroupingProviders.provide_existed_value(synonyms, value))
 ```
 
 # Text Opinions Filters
@@ -182,6 +186,8 @@ distance_filter = DistanceLimitedTextOpinionFilter(terms_per_context=50)
 ```
 
 # Conclusion
+
+> [Example code for the tutorial](https://github.com/nicolay-r/AREkit/blob/af7c951d871a693a25a0a7c72e8a0ff5ba559c4a/tests/tutorials/test_tutorial_pipeline_text_opinion_annotation.py#L43)
 
 Thank you for reading this post! 
 Now you're in details on how text opinion annotators and filters might be implemented in order to craft your own
