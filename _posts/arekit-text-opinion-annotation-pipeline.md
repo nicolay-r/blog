@@ -21,10 +21,10 @@ The snippet below illustrates the core function `text_opinion_extraction_pipelin
 ```python
 pipeline = text_opinion_extraction_pipeline(
     annotators=[
-        # LIST OF OUR ANNOTATIONS
+        # LIST OF YOUR ANNOTATIONS
     ],
     text_opinion_filters=[
-        # LIST OF OUR FILTERS
+        # LIST OF YOUR FILTERS
     ],
     get_doc_func=lambda doc_id: doc_ops.get_doc(doc_id),
     text_parser=text_parser)
@@ -32,16 +32,16 @@ pipeline = text_opinion_extraction_pipeline(
 
 According to the snippet above, first of all we deal with **annotators** -- implmentations which provides iterators of the text opinions.
 To accomplish this task, AREkit-0.22.1 provides the following annotators
-* `PredefinedTextOpinionAnnotator` --
-* `AlgorithmBasedOpinionAnnotator` -- 
-* `AlgorithmBasedTextOpinionAnnotator` -- 
+1. `PredefinedTextOpinionAnnotator` -- consider to convert BRAT-based relations into text opinions
+2. `AlgorithmBasedOpinionAnnotator` -- consider to adopt algoritms for opinion annotation onto the document level.
+3. `AlgorithmBasedTextOpinionAnnotator` -- the same as (2), but with a conversion onto text-level; this is inherited from the (2) in AREkit-0.22.1;
 
-Another parameter in the snippet above is a set of text-opinion **filters**, which allows us to declare boolean rules in order reject some of text opoinions
-depending on the certaion limitations, our needs, and so on.
-AREkit-0.22.1 provides the following filters for text opinions by default:
-* `EntityBasedTextOpinionFilter` --
-* `DistanceLimitedTextOpinionFilter` --
-* `FrameworkLimitationsTextOpinionFilter` -- 
+Another parameter in the snippet above is a set of text-opinion **filters**, which allows us to declare 
+boolean rules in order reject some of text opoinions depending on the certaion limitations, our needs, and so on.
+By default, AREkit-0.22.1 provides the following filters for text opinions:
+* `EntityBasedTextOpinionFilter` -- filter based on ends of the text opinion participants (subject and object named entities)
+* `DistanceLimitedTextOpinionFilter` -- filter based on distance between mentioned named entities (in terms)
+* `FrameworkLimitationsTextOpinionFilter` -- limitations that should be considered due to specifics of the internal fucntionality implementation.
 
 > **NOTE** -- `FrameworkLimitationsTextOpinionFilter` is an internal limitations which is applied by default so there is no need to declare them 
 manually, but it might be better to consider already known limitations for your personal needs.
@@ -68,35 +68,52 @@ class DocumentOperations(object):
 ```
 
 At last, as for the `text_parser` parameter, we also have a post which covers it in a greater details.
+Please refer to the [related post]()
 
 ## Text Opinion Annotators
 
 Let's take a closer look on how each of them might be, first **declared** and, second, 
 **adopted** in the final in the common text opinion extraction pipeline. 
-In this section we cover all the possible annontators that might be crafter out-of-the-box. 
+In this section we cover all the possible annontators that might be crafter out-of-the-box.
 
-Simple predefined annotator for the case, when we already have annotated text opinions 
-(like BRAT-based collections, which provide so). 
-For example, for texts in Russian, this might be a NEREL collection.
+Before we start with annotators, the common formatter we also required is a **labels formatter**.
+To implement your own formatter, it is important to inherit `StringLabelsFormatter` base AREkit-0.22.1 class.
+Labels formatter allows us to perform transformation from `str` to `Label` type and vice versa. 
+Type `Label` is a core type for every label utilzed in a project.
+The snippet below illustrates an example of the custom label formatter for a couple labels, such as `positive` and `negative`:
 
 ```python
-predefined_annotator PredefinedTextOpinionAnnotator(
-    doc_ops=doc_ops, 
-    label_formatter=RuAttitudesLabelFormatter(label_scaler))
+class CustomLabelsFormatter(StringLabelsFormatter):
+    def __init__(self, pos_label_type, neg_label_type):
+        stol = {`neg`: neg_label_type, `pos`: pos_label_type}
+        super(RuSentRelLabelsFormatter, self).__init__(stol=stol)
 ```
 
-Sometimes, the annotation might be provided on document level, like in [RuSentRel].
+Simple predefined annotator for the case, when we already have annotated text opinions (like BRAT-based collections). 
+For texts in Russian, this might be a [NEREL collection](https://github.com/nerel-ds/NEREL).
+The snipped below illstrates on how the annotator of the predefined relations might be implemented:
+```python
+predefined_annotator = PredefinedTextOpinionAnnotator(
+    doc_ops=doc_ops, 
+    label_formatter=CustomLabelsFormatter(label_scaler))
+```
+
+Sometimes, the annotation might be provided on document level, like in [RuSentRel](https://github.com/nicolay-r/RuSentRel).
+The snippet below illustrates the way on how document level opinions, provided separately for every document of RuSentRel collection,
+might be adopted and then converted to text opinions. 
+This conversion is performed via `RuSentRelOpinionCollection.iter_opinions_from_doc` 
+which leave outside of this post.
 ```python
 predefined_annotator = AlgorithmBasedTextOpinionAnnotator(
-        annot_algo=PredefinedOpinionAnnotationAlgorithm(
-            lambda doc_id: __get_document_opinions(doc_id, synonyms, labels_fmt)),
-        create_empty_collection_func=lambda: OpinionCollection(
-            opinions=[], synonyms=synonyms, 
-            error_on_duplicates=True, 
-            error_on_synonym_end_missed=False),
-        get_doc_existed_opinions_func=lambda _: None,
-        value_to_group_id_func=lambda value:
-            SynonymsCollectionValuesGroupingProviders.provide_existed_value(synonyms, value))
+    annot_algo=PredefinedOpinionAnnotationAlgorithm(
+        lambda doc_id: __get_document_opinions(doc_id, synonyms, labels_fmt)),
+    create_empty_collection_func=lambda: OpinionCollection(
+        opinions=[], synonyms=synonyms, 
+        error_on_duplicates=True, 
+        error_on_synonym_end_missed=False),
+    get_doc_existed_opinions_func=lambda _: None,
+    value_to_group_id_func=lambda value:
+        SynonymsCollectionValuesGroupingProviders.provide_existed_value(synonyms, value))
 
 def __get_document_opinions(doc_id, synonyms, labels_fmt):
     return OpinionCollection(
@@ -134,14 +151,30 @@ class TextOpinionFilter(object):
     def filter(self, text_opinion, parsed_news, entity_service_provider):
         raise NotImplementedError()
 ```
-
+Where the its custom implementation might be as follows:
 ```python
-EntityBasedTextOpinionFilter(entity_filter)
+class CustomEntityFilter(EntityFilter):
+    supported = ["GPE", "PERSON", "LOCAL", "GEO", "ORG"]
+    def is_ignored(self, entity, e_type):
+        if e_type == OpinionEntityType.Subject or e_type == OpinionEntityType.Object:
+            return entity.Type not in CustomEntityFilter.supported
+        return True
 ```
 
-In the snippet below, we consider only those text opinions, in which distance in terms between participats is not exceeds amount of `50`:
+Here is how the filter, based on the entity filtering details, might be gathered:
 ```python
-DistanceLimitedTextOpinionFilter(terms_per_context=50)
+custom_filter = EntityBasedTextOpinionFilter(entity_filter=CustomEntityFilter())
 ```
 
-# Result Pipeline
+In the snippet below, we consider only those text opinions, 
+in which distance in terms between participats is not exceeds amount of `50`:
+```python
+distance_filter = DistanceLimitedTextOpinionFilter(terms_per_context=50)
+```
+
+# Conclusion
+
+Thank you for reading this post! 
+Now you're in details on how text opinion annotators and filters might be implemented in order to craft your own
+text opinion annotator. 
+Annotator then is requred for data sampling, which will be covered in next posts in greater details. 
