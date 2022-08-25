@@ -55,6 +55,18 @@ documents **and unify** of all the documents behind every provided folding.
 united_folding = UnitedFolding([fixed_folding, no_folding])
 ```
 
+
+The last folding supported by AREkit is a so-called *k-fold Cross-Validational* one.
+This folding assumes to distribute whole set of documents among `k` parts.
+Algorithm, which describes this distribution is a part of the so called **Splitters**.
+
+AREkit provides two type of splitters out of the box.
+The first one (simple version) is consider a random separation by a given `seed` value.
+Splitter of this type could be initialized as follows:
+```python
+splitter_simple = SimpleCrossValidationSplitter(shuffle=True, seed=1)
+```
+
 ```python
 cv_folding = TwoClassCVFolding(supported_data_types=[DataType.Train, DataType.Test],
                                doc_ids_to_fold=[1,2,3,4,5,6,7,8,9,10],
