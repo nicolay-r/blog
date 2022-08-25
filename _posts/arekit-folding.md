@@ -35,7 +35,7 @@ we declare a set of the related documents.
 
 ```python
 data_type_foldings = {
-    DataType.Train: [0, 1, 2, 3]
+    DataType.Train: [0, 1, 2, 3],
     DataType.Test: [4, 5, 6, 7]
 }
 fixed_folding = FixedFolding.from_parts(data_type_foldings)
@@ -52,7 +52,7 @@ documents **and unify** of all the documents behind every provided folding.
 `UnitedFolding` type could be initialized as follows:
 
 ```python
-folding = UnitedFolding([fixed_folding, no_folding])
+united_folding = UnitedFolding([fixed_folding, no_folding])
 ```
 
 ```python
@@ -62,4 +62,8 @@ cv_folding = TwoClassCVFolding(supported_data_types=[DataType.Train, DataType.Te
                                splitter=None)
 ```
 
-SPLITTERS
+## Conclusion
+
+Thank you for reading this post! Now you're able to choose and declare your folding in order to then pass it for samples generation. 
+However, the latter is a part of another topic. 
+Stay well and connected for updates.
