@@ -15,6 +15,8 @@ might be described and the utilized in other pipelines required so.
 
 <!--more-->
 
+> [Tutorial code](https://github.com/nicolay-r/AREkit/blob/master/tests/tutorials/test_tutorial_data_foldings.py)
+
 In order to describe document separation format, AREkit-0.22.1 provides the `BaseDataFolding` type,
 which in short could be described in the following snippet:
 ```python
@@ -94,6 +96,8 @@ cv_folding = TwoClassCVFolding(supported_data_types=[DataType.Train, DataType.Te
 ```
 
 ## Conclusion
+
+> [Tutorial code](https://github.com/nicolay-r/AREkit/blob/master/tests/tutorials/test_tutorial_data_foldings.py)
 
 Thank you for reading this post! Now you're able to choose and declare your folding in order to then pass it for samples generation. 
 However, the latter is a part of another topic. 
