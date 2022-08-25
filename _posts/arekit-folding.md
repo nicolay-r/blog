@@ -63,8 +63,23 @@ Algorithm, which describes this distribution is a part of the so called **Splitt
 AREkit provides two type of splitters out of the box.
 The first one (simple version) is consider a random separation by a given `seed` value.
 Splitter of this type could be initialized as follows:
+
 ```python
 splitter_simple = SimpleCrossValidationSplitter(shuffle=True, seed=1)
+```
+
+Another type is a statistical one, in which we rely on a certain measurements, i.e. statistics
+caclulated by a given document, in order to then consider this statistics for a balanced distribution.
+By default we provide a sentence-based statistics generation, which calculates an amount of sentences
+of a given document.
+> **NOTE** in present AREkit version we consider that this statistics is provided via file (`stat.txt` according to
+the snippet below)
+
+```python
+splitter_statistical = StatBasedCrossValidationSplitter(
+        docs_stat=SentenceBasedDocumentStatGenerator(lambda doc_id: doc_ops.get_doc(doc_id)).
+        doc_stat_filepath_func: lambda: "stat.txt"
+    )
 ```
 
 ```python
