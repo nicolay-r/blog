@@ -90,7 +90,7 @@ splitter_statistical = StatBasedCrossValidationSplitter(
 Once any of the splitter types declared, it is possible to initialize Cross-Validational-based folding as follows:
 ```python
 cv_folding = TwoClassCVFolding(supported_data_types=[DataType.Train, DataType.Test],
-                               doc_ids_to_fold=[1,2,3,4,5,6,7,8,9,10],
+                               doc_ids_to_fold=list(range(10)),
                                cv_count=3,
                                splitter=splitter_simple)
 ```
