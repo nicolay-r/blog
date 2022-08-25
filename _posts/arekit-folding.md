@@ -72,21 +72,25 @@ Another type is a statistical one, in which we rely on a certain measurements, i
 caclulated by a given document, in order to then consider this statistics for a balanced distribution.
 By default we provide a sentence-based statistics generation, which calculates an amount of sentences
 of a given document.
+
 > **NOTE** in present AREkit version we consider that this statistics is provided via file (`stat.txt` according to
 the snippet below)
 
+As for `doc_ops` parameter, this parameter is related to `DocumentOperation` type, which we cover in the
+[AREkit Tutorial: Craft your text-opinion annotation pipeline!](https://github.com/nicolay-r/blog/blob/master/_posts/arekit-text-opinion-annotation-pipeline.md).
 ```python
 splitter_statistical = StatBasedCrossValidationSplitter(
-        docs_stat=SentenceBasedDocumentStatGenerator(lambda doc_id: doc_ops.get_doc(doc_id)).
+        docs_stat=SentenceBasedDocumentStatGenerator(lambda doc_id: doc_ops.get_doc(doc_id)),
         doc_stat_filepath_func: lambda: "stat.txt"
     )
 ```
 
+Once any of the splitter types declared, it is possible to initialize Cross-Validational-based folding as follows:
 ```python
 cv_folding = TwoClassCVFolding(supported_data_types=[DataType.Train, DataType.Test],
                                doc_ids_to_fold=[1,2,3,4,5,6,7,8,9,10],
                                cv_count=3,
-                               splitter=None)
+                               splitter=splitter_simple)
 ```
 
 ## Conclusion
