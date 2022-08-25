@@ -3,7 +3,7 @@ layout: post
 title: "AREkit Tutorial: Data Folding Setup"
 description: "AREkit Tutorial: Data Folding Setup"
 category: POST
-tags: [AREkit, CV, Split]
+tags: [AREkit, CV, Split, Folding]
 ---
 
 Besides the text contents processing, i.e. performing information retrieval, annotating inner objects, 
@@ -15,3 +15,51 @@ might be described and the utilized in other pipelines required so.
 
 <!--more-->
 
+In order to describe document separation format, AREkit-0.22.1 provides the `BaseDataFolding` type,
+which in short could be described in the following snippet:
+```python
+class BaseDataFolding(object):
+    
+    # ... other implementation stuff
+    
+    def fold_doc_ids_set(self):
+        raise NotImplementedError()
+
+```
+
+According to the implementation above, declaring your own folding required `fold_doc_ids_set` implemenation.
+This implementation considers that for a given set of data types, such as `Train`, `Test`, `Dev`, and many others,
+we declare a set of the related documents.
+
+## Folding Types
+
+```python
+data_type_foldings = {
+    DataType.Train: [0, 1, 2, 3]
+    DataType.Test: [4, 5, 6, 7]
+}
+fixed_folding = FixedFolding.from_parts(data_type_foldings)
+```
+
+The absence of folding at all could be declared as follows:
+```python
+no_folding = NoFolding(doc_ids=[10, 15, 20], supported_data_type=DataType.Train)
+```
+
+We also consider a combination of the different foldings by providing a `UnitedFolding` type.
+For a particular data type, supported by at least one folding parameter, it gathers the related set of 
+documents **and unify** of all the documents behind every provided folding. 
+`UnitedFolding` type could be initialized as follows:
+
+```python
+folding = UnitedFolding([fixed_folding, no_folding])
+```
+
+```python
+cv_folding = TwoClassCVFolding(supported_data_types=[DataType.Train, DataType.Test],
+                               doc_ids_to_fold=[1,2,3,4,5,6,7,8,9,10],
+                               cv_count=3,
+                               splitter=None)
+```
+
+SPLITTERS
