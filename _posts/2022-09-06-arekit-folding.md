@@ -3,6 +3,7 @@ layout: post
 title: "AREkit Tutorial: Data Folding Setup"
 description: "AREkit Tutorial: Data Folding Setup"
 category: POST
+visible: 0
 tags: [AREkit, CV, Split, Folding]
 ---
 
