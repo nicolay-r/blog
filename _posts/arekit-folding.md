@@ -35,12 +35,15 @@ we declare a set of the related documents.
 
 ## Folding Types
 
+One of the common type of folidings is the predefined one, or **fixed**. 
+In this type we consider a predefined separation of the document indices between predefined data types.
+This folding type might be initialized as follows:
 ```python
-data_type_foldings = {
+parts = {
     DataType.Train: [0, 1, 2, 3],
     DataType.Test: [4, 5, 6, 7]
 }
-fixed_folding = FixedFolding.from_parts(data_type_foldings)
+fixed_folding = FixedFolding.from_parts(parts)
 ```
 
 The absence of folding at all could be declared as follows:
