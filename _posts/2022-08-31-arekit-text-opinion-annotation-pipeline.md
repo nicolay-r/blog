@@ -3,6 +3,7 @@ layout: post
 title: "AREkit Tutorial: Craft your text-opinion annotation pipeline!"
 description: "AREkit Tutorial: Craft your text-opinion annotation pipeline!"
 category: POST
+visible: 0
 tags: [Pipelines, Opinions, Attitudes, Relation Extraction, Relations, AREkit, RuSentRel, NEREL]
 ---
 
