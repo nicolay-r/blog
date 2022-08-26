@@ -13,17 +13,11 @@ tags: [AREkit, CV, Split, Samples]
 >["Process Mass-Media relations for Language Models with AREkit"](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit)
 ; in the prior one we describe sampling process from scratch and under older API version *AREkit-0.22.0*.
 
-In this post we consider that the prior AREkit tutorials tutorials were passed:
-1. [Binding a custom annotated collection for Relation Extraction](https://nicolay-r.github.io/blog/articles/2022-08/arekit-collection-bind)
-2. [Compose your text-processing pipeline!
-](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-parsing-pipeline)
-3. [Craft your text-opinion annotation pipeline!](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-opinion-annotation-pipeline)
-4. [Data Folding Setup](https://nicolay-r.github.io/blog/articles/2022-09/arekit-sampling)
+## Text Opinion Sampler Initialization
 
-## Text Opinion Samplers
-
-1. For conventional neural networks, i.e. **Convolutional NN's**, **Recurrent NN's**.
-
+1. For conventional neural networks, i.e.:
+- Convolutional NN's, 
+- Recurrent NN's.
 
 The result serializer represents a pipeline item, which could be gathered as follows:
 
@@ -33,13 +27,53 @@ stemmer = MystemWrapper()
 embedding = load_embedding_news_mystem_skipgram_1000_20_2015(stemmer)
 ```
 
+Label scaler
+```python
+class PositiveTo(Label):
+    pass
+
+class NegativeTo(Label):
+    pass
+
+class SentimentLabelScaler(BaseLabelScaler):
+    def __init__(self):
+        int_to_label = OrderedDict([
+            (NoLabel(), 0), (PositiveTo(), 1), (NegativeTo(), -1)])
+        uint_to_label = OrderedDict([
+            (NoLabel(), 0), (PositiveTo(), 1), (NegativeTo(), 2)])
+        super(SentimentLabelScaler, self).__init__(
+            int_dict=int_to_label, uint_dict=uint_to_label)
+```
+
+Frames and frame-variant collection
+```python
+# Frames collection.
+frames_collection = RuSentiFramesCollection.read_collection(
+    version=RuSentiFramesVersions.V20,
+    labels_fmt=RuSentiFramesLabelsFormatter(
+        pos_label_type=PositiveTo, neg_label_type=NegativeTo),
+    effect_labels_fmt=RuSentiFramesEffectLabelsFormatter(
+        pos_label_type=PositiveTo, neg_label_type=NegativeTo))
+
+# Frame variant collection.
+frame_variant_collection = FrameVariantsCollection()
+frame_variant_collection.fill_from_iterable(
+    variants_with_id=frames_collection.iter_frame_id_and_variants(),
+    overwrite_existed_variant=True,
+    raise_error_on_existed_variant=False)
+
+# Connotation provider.
+frames_connotation_provider = RuSentiFramesConnotationProvider(frames_collection)
+```
+
 Network serialization context -- is a structure of the data required during sampling.
 ```python
 ctx = CustomNetworkSerializationContext(
-    labels_scaler=labels_scaler,
+    labels_scaler=SentimentLabelScaler(),
     pos_tagger=POSMystemWrapper(mystem=stemmer.MystemInstance),
     frames_collection=frames_collection,
-    frame_variant_collection=frame_variant_collection)
+    frame_variant_collection=frame_variant_collection,
+    frames_connotation_provider=frames_connotation_provider)
 ```
 
 **Vectorizers** -- algorithms of the vectors generation for text terms of any type.
@@ -47,7 +81,7 @@ AREkit provides the set of the following text **tokens**: word, entity, frame, t
 For each token type, it is possible to provide a custom vectorizer.
 ```python
 bpe_vectorizer = BPEVectorizer(embedding=embedding, max_part_size=3)
-norm_vectorizer = RandomNormalVectorizer(vector_size=embedding.VectorSize,
+norm_vectorizer = RandomNormalVectorizer(vector_size=embedding.VectorSize, 
                                          token_offset=12345)
 vectorizers = {
     TermTypes.WORD: bpe_vectorizer,
@@ -74,6 +108,37 @@ might be initialized as follows:
 embedding_io = NpEmbeddingIO(target_dir="out/")
 ```
 
+Entity formatter. 
+
+> TODO. Organize a separated topic for so.
+
+```python
+class OpinionEntityType(Enum):
+    Object = 1
+    Subject = 2
+    SynonymSubject = 3
+    SynonymObject = 4
+    Other = 5
+
+class StringEntitiesFormatter(object):
+    def to_string(self, original_value, entity_type):
+        assert(isinstance(entity_type, OpinionEntityType))
+        raise NotImplementedError()
+
+class CustomEntitiesFormatter(StringEntitiesFormatter):
+
+    def to_string(self, original_value, entity_type):
+        if entity_type == OpinionEntityType.Other:
+            return original_value
+        elif entity_type == OpinionEntityType.Object or \
+             entity_type == OpinionEntityType.SynonymObject:
+            return "[object]"
+        elif entity_type == OpinionEntityType.Subject or \
+             entity_type == OpinionEntityType.SynonymSubject:
+            return "[subject]"
+        return None
+```
+
 And now, we are finally ready to compose our serializer. 
 The latter represents a pipeline item, -- is an object which might be embedded into AREkit pipelines.
 
@@ -81,10 +146,25 @@ The latter represents a pipeline item, -- is an object which might be embedded i
 pipeline_item = NetworksInputSerializerPipelineItem(
     vectorizers, samples_io, embedding_io,
     str_entity_fmt=entities_fmt,
+    exp_ctx=ctx,
     balance_func=lambda data_type: data_type == DataType.Train,
     save_labels_func=lambda data_type: data_type != DataType.Test,
-    exp_ctx=ctx,
     save_embedding=True)
 ```
 
-There is another post covers the sampling for BERT models.
+## Running Pipeline
+
+Please refer to the following posts in order to initialize your text opinion annotation pipeline (`annot_pipeline`)
+and setup Data Folding (`data_folding`):
+* [Craft your text-opinion annotation pipeline!](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-opinion-annotation-pipeline)
+* [Data Folding Setup](https://nicolay-r.github.io/blog/articles/2022-09/arekit-sampling)
+
+Finally, we can compose and run a pipeline!
+```python
+pipeline = BasePipeline([pipeline_item])
+pipeline.run(input_data=None,
+             params_dict={
+                 "data_folding": data_folding,
+                 "data_type_pipelines": annot_pipeline 
+             })
+```
