@@ -48,7 +48,7 @@ fixed_folding = FixedFolding.from_parts(parts)
 
 The absence of folding at all could be declared as follows:
 ```python
-no_folding = NoFolding(doc_ids=[10, 15, 20], supported_data_type=DataType.Train)
+no_folding = NoFolding(doc_ids=[10, 15, 20], supported_data_type=DataType.Dev)
 ```
 
 We also consider a combination of the different foldings by providing a `UnitedFolding` type.
@@ -59,7 +59,6 @@ documents **and unify** of all the documents behind every provided folding.
 ```python
 united_folding = UnitedFolding([fixed_folding, no_folding])
 ```
-
 
 The last folding supported by AREkit is a so-called *k-fold Cross-Validational* one.
 This folding assumes to distribute whole set of documents among `k` parts.
@@ -96,6 +95,27 @@ cv_folding = TwoClassCVFolding(supported_data_types=[DataType.Train, DataType.Te
                                doc_ids_to_fold=list(range(10)),
                                cv_count=3,
                                splitter=splitter_simple)
+```
+
+## Display Data-Type Foldings
+
+For all the folding types mentioned above, AREkit provides `fold_to_doc_ids_set` method which returns dictionary of foldings. 
+The snippet below illustrates on how the folding could be obtained:
+```python
+def show_folding(folding):
+    assert(isinstance(folding, BaseDataFolding))
+    split_dict = folding.fold_doc_ids_set()
+    for data_type, doc_ids in split_dict.items():
+        print(data_type, doc_ids)
+```
+
+In case of the *k-fold Cross Validation* there is an additional `iter_states` method which allows us
+to iterate over a different `k` states. 
+Combining this call with a fuction declared above, all the possible data type foldings might be obtained as presented below:
+```python
+for state_index, _ in enumerate(cv_folding.iter_states()):
+    print("State: ", state_index)
+    self.show_folding(cv_folding)         
 ```
 
 ## Conclusion
