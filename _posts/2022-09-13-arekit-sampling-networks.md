@@ -13,15 +13,15 @@ tags: [AREkit, CV, Split, Samples]
 >["Process Mass-Media relations for Language Models with AREkit"](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit)
 ; in the prior one we describe sampling process from scratch and under older API version *AREkit-0.22.0*.
 
-## Text Opinion Sampler Initialization
+## Sampler Initialization
 
-1. For conventional neural networks, i.e.:
-- Convolutional NN's, 
-- Recurrent NN's.
+For such conventional neural networks as Convolutional NN's, Recurrent NN's,
+it is expected that we manually provide input vectors (embeddings), 
+including vocabulary of the supported words.
+Therefore there is a need at first initialize the auxilary structures in order 
+to then adopt them in sampler initialization.
 
-The result serializer represents a pipeline item, which could be gathered as follows:
-
-Embedding preparation.
+Starting with an embedding preparation.
 ```python
 stemmer = MystemWrapper()
 embedding = load_embedding_news_mystem_skipgram_1000_20_2015(stemmer)
@@ -140,19 +140,35 @@ pipeline_item = NetworksInputSerializerPipelineItem(
     save_embedding=True)
 ```
 
-## Running Pipeline
+## Running Sampler
 
 Please refer to the following posts in order to initialize your text opinion annotation pipeline (`annot_pipeline`)
 and setup Data Folding (`data_folding`):
 * [Craft your text-opinion annotation pipeline!](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-opinion-annotation-pipeline)
 * [Data Folding Setup](https://nicolay-r.github.io/blog/articles/2022-09/arekit-sampling)
 
-Finally, we can compose and run a pipeline!
+Finally, we can compose pipeline by wrapping a predefined `pipeline_item` and then run it!
+This could be accomplished as follows:
 ```python
-pipeline = BasePipeline([pipeline_item])
+pipeline = BasePipeline([
+    pipeline_item
+])
+
 pipeline.run(input_data=None,
              params_dict={
                  "data_folding": data_folding,
                  "data_type_pipelines": annot_pipeline 
              })
+```
+
+Finally our result is a content of the `out` directory.
+The contents depends on Data Folding format.
+For example, in case of the *fixed* folding onto `Train` and `Test` data types,
+it is expected to see the following set of contents:
+```
+./out/
+    sample_train.tsv.gz
+    sample_test.tsv.gz
+    embedding.npz
+    vocab.txt
 ```
