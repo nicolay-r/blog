@@ -22,7 +22,7 @@ which in short could be described in the following snippet:
 ```python
 class BaseDataFolding(object):
     
-    # ... other implementation stuff
+    # ... other contents
     
     def fold_doc_ids_set(self):
         raise NotImplementedError()
@@ -81,15 +81,16 @@ of a given document.
 the snippet below)
 
 As for `doc_ops` parameter, this parameter is related to `DocumentOperation` type, which we cover in the
-[AREkit Tutorial: Craft your text-opinion annotation pipeline!](https://github.com/nicolay-r/blog/blob/master/_posts/arekit-text-opinion-annotation-pipeline.md).
+[AREkit Tutorial: Craft your text-opinion annotation pipeline!](https://github.com/nicolay-r/blog/blob/master/_posts/2022-08-31-arekit-text-opinion-annotation-pipeline.md).
 ```python
+doc_ops = FooDocumentOperations()
 splitter_statistical = StatBasedCrossValidationSplitter(
-        docs_stat=SentenceBasedDocumentStatGenerator(lambda doc_id: doc_ops.get_doc(doc_id)),
-        doc_stat_filepath_func: lambda: "stat.txt"
-    )
+    docs_stat=SentenceBasedDocumentStatGenerator(lambda doc_id: doc_ops.get_doc(doc_id)),
+    docs_stat_filepath_func=lambda: "data/stat.txt")
 ```
 
-Once any of the splitter types declared, it is possible to initialize Cross-Validational-based folding as follows:
+Once any of the splitter types declared, it is possible to initialize Cross-Validational-based folding.
+AREkit provides a two class folding type, which could be adopted as follows:
 ```python
 cv_folding = TwoClassCVFolding(supported_data_types=[DataType.Train, DataType.Test],
                                doc_ids_to_fold=list(range(10)),
@@ -115,7 +116,7 @@ Combining this call with a fuction declared above, all the possible data type fo
 ```python
 for state_index, _ in enumerate(cv_folding.iter_states()):
     print("State: ", state_index)
-    self.show_folding(cv_folding)         
+    show_folding(cv_folding)         
 ```
 
 ## Conclusion
