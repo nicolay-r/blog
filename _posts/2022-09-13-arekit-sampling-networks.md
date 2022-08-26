@@ -45,35 +45,23 @@ class SentimentLabelScaler(BaseLabelScaler):
             int_dict=int_to_label, uint_dict=uint_to_label)
 ```
 
-Frames and frame-variant collection
-```python
-# Frames collection.
-frames_collection = RuSentiFramesCollection.read_collection(
-    version=RuSentiFramesVersions.V20,
-    labels_fmt=RuSentiFramesLabelsFormatter(
-        pos_label_type=PositiveTo, neg_label_type=NegativeTo),
-    effect_labels_fmt=RuSentiFramesEffectLabelsFormatter(
-        pos_label_type=PositiveTo, neg_label_type=NegativeTo))
-
-# Frame variant collection.
-frame_variant_collection = FrameVariantsCollection()
-frame_variant_collection.fill_from_iterable(
-    variants_with_id=frames_collection.iter_frame_id_and_variants(),
-    overwrite_existed_variant=True,
-    raise_error_on_existed_variant=False)
-
-# Connotation provider.
-frames_connotation_provider = RuSentiFramesConnotationProvider(frames_collection)
-```
-
 Network serialization context -- is a structure of the data required during sampling.
+This structure covers such further neural network features as:
+* Part-of-Speech tagging
+* Frames annotations 
+* Frames connotations
+
+In terms of frames connotations, we are kindly refer to our another post
+[AREkit Tutorial: Frame Variants and Connotation Providers](https://nicolay-r.github.io/blog/articles/2022-09/arekit-frames)
+in which we cover frame-based providers (Russian resource based only).
+ 
 ```python
 ctx = CustomNetworkSerializationContext(
     labels_scaler=SentimentLabelScaler(),
     pos_tagger=POSMystemWrapper(mystem=stemmer.MystemInstance),
     frames_collection=frames_collection,
     frame_variant_collection=frame_variant_collection,
-    frames_connotation_provider=frames_connotation_provider)
+    frames_connotation_provider=RuSentiFramesConnotationProvider(frames_collection))
 ```
 
 **Vectorizers** -- algorithms of the vectors generation for text terms of any type.
