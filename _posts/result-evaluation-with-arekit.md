@@ -3,11 +3,11 @@ layout: post
 title: "AREkit Tutorial: Inferred Results Evaluation!"
 description: "AREkit Tutorial: Inferred Results Evaluation!"
 category: POST
-tags: [AREkit, Evaluation, Evaluator, Precission, Recall, Accuracy]
+tags: [AREkit, Evaluation, Evaluator, Precision, Recall, Accuracy]
 ---
 
 Once the relation extraction model is ready-to-use, it is expected to be evaluated and compared with the other approaches. 
-Given a couple datasets of a `Test` and `Etalon` types, it is possble to assess the result model using the 
+Given a couple datasets of a `Test` and `Etalon` types, it is possible to assess the result model using the 
 AREkit embedded evaluators.
 
 In this posts we cover a possible evaluation formats for Sentiment Relations of the Relation Extraction subtask.
