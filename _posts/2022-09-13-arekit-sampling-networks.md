@@ -96,15 +96,20 @@ might be initialized as follows:
 embedding_io = NpEmbeddingIO(target_dir="out/")
 ```
 
-Entity formatter.  TODO. Complete.
 
-And now, we are finally ready to compose our serializer. 
+And now, we are finally ready to compose our serializer!
 The latter represents a pipeline item, -- is an object which might be embedded into AREkit pipelines.
+
+> **NOTE:** In a snippet below there is a need to declare formatter for **mentioned named entities**
+(`str_entities_fmt` parameter).
+In our blog we have a separated topic and post
+[AREkit Tutorial: Entity Values Formatting Examples](https://nicolay-r.github.io/blog/articles/2022-09/arekit-sampling-networks);
+in this example we adopt `SimpleUppercasedEntityFormatter` by default.
 
 ```python
 pipeline_item = NetworksInputSerializerPipelineItem(
     vectorizers, samples_io, embedding_io,
-    str_entity_fmt=entities_fmt,
+    str_entity_fmt=SimpleUppercasedEntityFormatter(),
     exp_ctx=ctx,
     balance_func=lambda data_type: data_type == DataType.Train,
     save_labels_func=lambda data_type: data_type != DataType.Test,

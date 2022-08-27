@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "AREkit Entity Formatters"
-description: "AREkit Entity Formatters"
+title: "AREkit Tutorial: Entity Values Formatting Examples"
+description: "AREkit Tutorial: Entity Values Formatting Examples"
 category: POST
 visible: 0
-tags: [AREkit, Entity, Masking]
+tags: [AREkit, Entity, Masking, Examples]
 ---
 
 ```python
