@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "AREkit Tutorial: Sample Mass-Media Text Opinions for Your Machine Learning Model"
-description: "AREkit Tutorial: Sample Mass-Media Text Opinions for Your Machine Learning Model"
+title: "AREkit Tutorial: Sample Mass-Media Text Opinions for Neural Network"
+description: "AREkit Tutorial: Sample Mass-Media Text Opinions for Neural Network"
 category: POST
 visible: 0
-tags: [AREkit, CV, Split, Samples]
+tags: [AREkit, CV, Split, Samples, Neural Networks, CNN, RNN]
 ---
 
 <!--more-->
