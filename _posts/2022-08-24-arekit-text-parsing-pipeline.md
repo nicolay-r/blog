@@ -116,32 +116,18 @@ Frames are useful in certain Machine Learning models, designed to solve Relation
 In terms of the such task as *Sentiment Analysis*, frames might be entries that convey the presence of the sentiment attutdies from one object towards the other.
 
 In AREkit-0.22.1 we provide [declaration](https://github.com/nicolay-r/AREkit/blob/629ee6d2705980b4a7ad792faa3f7baae5b57973/arekit/common/frames/variants/collection.py#L5) of the `FramesVariantsCollection`'s. 
-This collection allows to keep frame variants (`FrameVariant`) for a given frame ID.
+This collection allows keeping frame variants (`FrameVariant`) for a given frame ID.
 For studies in Russian we provide `RuSentiFramesCollection` which provides connotation frames that conveys the presence of sentiment relations from Agent (`A0`) towards Theme (`A1`) with such sentimnets as: *positive* (`PositiveTo` in the following example) and *negative* (`NegativeTo`). 
-Frames collection initialization could be performed as follows:
-
-```python
-class PositiveTo(Label): # declaring extra class for describing positive label
-    pass
-    
-class NegativeTo(Label): # declaring extra-class for describing negative label
-    pass
-
-frames_collection = RuSentiFramesCollection.read_collection(
-    version=RuSentiFramesVersions.V20,
-    labels_fmt=RuSentiFramesLabelsFormatter(
-        pos_label_type=PositiveTo, neg_label_type=NegativeTo),
-    effect_labels_fmt=RuSentiFramesEffectLabelsFormatter(
-        pos_label_type=PositiveTo, neg_label_type=NegativeTo))
-
-frame_variant_collection = FrameVariantsCollection()
-frame_variant_collection.fill_from_iterable(
-    variants_with_id=frames_collection.iter_frame_id_and_variants(),
-    overwrite_existed_variant=True,
-    raise_error_on_existed_variant=False)
-```
+Frames collection initialization is not a part of the following post so we kindly refer
+you to another 
+[Frame Variants and Connotation Providers](https://nicolay-r.github.io/blog/articles/2022-09/arekit-frames)
+tutorial for a greater details onto frames concepts and providers initialization.
 
 Then, application of the frame variants annotation could be adopted as follows:
+> **NOTE**: for `frame_variant_collection` initialization please follow the details of the
+[AREkit Tutorial: Frame Variants and Connotation Providers](https://nicolay-r.github.io/blog/articles/2022-09/arekit-frames)
+post.
+
 ```python
 text_parser = BaseTextParser(pipeline=[
     # ...
@@ -156,13 +142,14 @@ The snippet above could be modified with
 `LemmaBasedFrameVariantsParser` as follows:
 ```python
 text_parser = BaseTextParser(pipeline=[
-    # ... lemmatized representation
-    LemmasBasedFrameVariantsParser(frame_variants=frame_variant_collection, stemmer=MystemWrapper())]
+    # ... lemmatized version
+    LemmasBasedFrameVariantsParser(frame_variants=frame_variant_collection, 
+                                   stemmer=MystemWrapper())
 ])
 ```
 
 We may also adopt sentiment *negations* for frame variants, which allows us to invert sentiment score due to the particular prepositions.
-This feature is available for Russian texts.
+> **NOTE:** This feature is a language specific, and in terms of the AREkit, for now available for Russian texts only.
 ```python
 text_parser = BaseTextParser(pipeline=[
     # ... 
