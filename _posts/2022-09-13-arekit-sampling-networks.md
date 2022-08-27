@@ -96,36 +96,7 @@ might be initialized as follows:
 embedding_io = NpEmbeddingIO(target_dir="out/")
 ```
 
-Entity formatter. 
-
-> TODO. Organize a separated topic for so.
-
-```python
-class OpinionEntityType(Enum):
-    Object = 1
-    Subject = 2
-    SynonymSubject = 3
-    SynonymObject = 4
-    Other = 5
-
-class StringEntitiesFormatter(object):
-    def to_string(self, original_value, entity_type):
-        assert(isinstance(entity_type, OpinionEntityType))
-        raise NotImplementedError()
-
-class CustomEntitiesFormatter(StringEntitiesFormatter):
-
-    def to_string(self, original_value, entity_type):
-        if entity_type == OpinionEntityType.Other:
-            return original_value
-        elif entity_type == OpinionEntityType.Object or \
-             entity_type == OpinionEntityType.SynonymObject:
-            return "[object]"
-        elif entity_type == OpinionEntityType.Subject or \
-             entity_type == OpinionEntityType.SynonymSubject:
-            return "[subject]"
-        return None
-```
+Entity formatter.  TODO. Complete.
 
 And now, we are finally ready to compose our serializer. 
 The latter represents a pipeline item, -- is an object which might be embedded into AREkit pipelines.
