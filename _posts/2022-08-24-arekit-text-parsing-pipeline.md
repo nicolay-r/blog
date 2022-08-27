@@ -61,7 +61,7 @@ For such cases you may adopt the [following](https://github.com/nicolay-r/ARElig
 ```python
 text_parser = BaseTextParser([
     # ... 
-    TextEntitiesParser(keep_tokens=True),
+    TextEntitiesParser(),
 ])
 ```
 
@@ -150,9 +150,23 @@ text_parser = BaseTextParser(pipeline=[
 
 We may also adopt sentiment *negations* for frame variants, which allows us to invert sentiment score due to the particular prepositions.
 > **NOTE:** This feature is a language specific, and in terms of the AREkit, for now available for Russian texts only.
+
 ```python
 text_parser = BaseTextParser(pipeline=[
     # ... 
+    FrameVariantsSentimentNegation()
+])
+```
+
+## Gathering Your Own Text Processing Pipeline
+
+Below is an example on how the items described above might be adopted for text processing:
+```python
+text_parser = BaseTextParser(pipeline=[
+    TextEntitiesParser(),
+    DefaultTextTokenizer(keep_tokens=True),
+    LemmasBasedFrameVariantsParser(frame_variants=frame_variant_collection,
+                                   stemmer=MystemWrapper()),
     FrameVariantsSentimentNegation()
 ])
 ```
