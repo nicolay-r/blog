@@ -4,7 +4,7 @@ title: "AREkit Tutorial: Sample Mass-Media Text Opinions for Neural Network"
 description: "AREkit Tutorial: Sample Mass-Media Text Opinions for Neural Network"
 category: POST
 visible: 0
-tags: [AREkit, CV, Split, Samples, Neural Networks, CNN, RNN]
+tags: [AREkit, Samples, Neural Networks, CNN, RNN]
 ---
 
 <!--more-->
@@ -138,7 +138,7 @@ pipeline.run(input_data=None,
 ```
 
 Finally our result is a content of the `out` directory.
-The contents depends on Data Folding format.
+The contents depend on Data Folding format.
 For example, in case of the *fixed* folding onto `Train` and `Test` data types,
 it is expected to see the following set of contents:
 ```
