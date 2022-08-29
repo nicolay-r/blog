@@ -7,6 +7,8 @@ visible: 0
 tags: [AREkit, CV, Split, Folding]
 ---
 
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-data-folding.png)
+
 Besides the text contents processing, i.e. performing information retrieval, annotating inner objects, 
 for Machine Learning models it is also required to manage data subsets.
 In other words there is a need to provide rules on how the series of documents on such subsets.
