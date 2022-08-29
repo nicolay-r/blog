@@ -15,33 +15,77 @@ tags: [AREkit, Samples, Neural Networks, BERT]
 >
 ## Sampler Initialization
 
-Label scaler
+First, it is necessary to declare labels expected to adopted in further samples preparation process.
+In this post we focused on sentiment-related data sampling and therefore considering the following 
+set of labels: `Positive`, `Negative` and additionally *neutral*, type of `NoLabel` which AREkit provides by default.
 ```python
-class PositiveTo(Label):
+class Positive(Label):
     pass
 
-class NegativeTo(Label):
+class Negative(Label):
     pass
-
-class SentimentLabelScaler(BaseLabelScaler):
-    def __init__(self):
-        int_to_label = OrderedDict([
-            (NoLabel(), 0), (PositiveTo(), 1), (NegativeTo(), -1)])
-        uint_to_label = OrderedDict([
-            (NoLabel(), 0), (PositiveTo(), 1), (NegativeTo(), 2)])
-        super(SentimentLabelScaler, self).__init__(
-            int_dict=int_to_label, uint_dict=uint_to_label)
 ```
 
-> **TODO:** Sample Rows Provider. Provide class impelemntation with Pair-Based row provider.
- 
+Next step, we declare label scaler.
+*Scaler* (`BaseLabelScaler` class) allows us to provide conversion from `Label` type to `int`/`uint` values and vice versa.
+We declare Sentiment scaller as follows:
 ```python
-sample_rows_provider = ...
+class SentimentLabelScaler(BaseLabelScaler):
+    def __init__(self):
+        int_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), -1)])
+        uint_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), 2)])
+        super(SentimentLabelScaler, self).__init__(int_to_label, uint_to_label)
+```
+
+In terms of the input aspects of the **BERT** model, 
+we deal with a sequence (optionally) separated by a `[SEP]` token onto couple parts, such as:
+`TextA` and `TextB`.
+For the classificational task, `TextB` might be treated as a prompt with the auxilary information 
+which might be considered in a result class decission.
+> For the sentiment analysis and relation extraction domain you may examine more approaches in 
+[Awesome Sentiment Attitude Extraction Repository](https://github.com/nicolay-r/awesome-sentiment-attitude-extraction)
+
+At present, `text_b` template is expected to contain a placeholders for `subject`, `object` and `context`,
+where *context* corresponds to a text part between `subject` and `object`.
+For texts in Russian, we assign the following **NLI-styled** (Natural Language Inference) prompt:
+> NOTE: you may left `text_b_tempalete` as **None** once you don't want to consider a separated sequence.
+```python
+text_b_template = '{subject} к {object} в контексте : << {context} >>'
+```
+
+Next, we focused on text provider.
+First, there is a need to setup terms mapper.
+Terms mappers allows us to customize the way on how terms will be displayed in samples.
+AREkit provides `BertDefaultStringTextTermsMapper`, in which you may among all 
+of the different term types customize mentioned named entities. 
+
+In terms of the latter we have a separated post 
+[AREkit Tutorial: Entity Values Formatting Examples](https://nicolay-r.github.io/blog/articles/2022-09/arekit-entity-formatters-examples).
+From that tutorial, here we adopt `CustomEntitiesFormatter` and assign `#S` and `#O` masks towards the
+text opinion participants, i.e. subject and object respectively.
+
+Depending on the `text_b_template` we may declare a single text provider (i.e. `TextA` only)
+or pair-based one:
+```python
+terms_mapper = BertDefaultStringTextTermsMapper(
+    entity_formatter=CustomEntitiesFormatter(
+        subject_fmt="#S", object_fmt="#O"))
+
+text_provider = BaseSingleTextProvider(terms_mapper) \
+    if text_b_template is None else \
+        PairTextProvider(text_b_template, terms_mapper)
+```
+
+Finally we may compose sample rows provider:
+```python
+sample_rows_provider = BaseSampleRowProvider(
+    label_provider=MultipleLabelProvider(SentimentLabelScaler()),
+    text_provider=text_provider)
 ```
 
 Initialize information related to the samples format and output directory/path.
 As for format, there is a need to declare a type inherited from the `BaseWriter`.
-By default, AREkit provides `TsvWriter` -- is a CSV-style formatter.
+By default, AREkit provides `TsvWriter` -- is a `CSV`-style formatter.
 
 > **Side note:** Tilte prefix `tsv` comes from the format proposed by google-BERT.
  
@@ -55,8 +99,7 @@ pipeline_item = BertExperimentInputSerializerPipelineItem(
     sample_rows_provider=None,
     samples_io=samples_io,
     save_labes_func=lambda data_type: True,
-    balance_func=lambda data_type: data_type == DataType.Train
-)
+    balance_func=lambda data_type: data_type == DataType.Train)
 ```
 
 
