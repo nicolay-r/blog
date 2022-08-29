@@ -25,6 +25,10 @@ class StringEntitiesFormatter(object):
 ```python
 class CustomEntitiesFormatter(StringEntitiesFormatter):
 
+    def __init__(self, subject_fmt="[subject]", object_fmt="[object]"):
+        self.__subj_fmt = subject_fmt
+        self.__obj_fmt = object_fmt
+
     def to_string(self, original_value, entity_type):
         if entity_type == OpinionEntityType.Other:
             return original_value

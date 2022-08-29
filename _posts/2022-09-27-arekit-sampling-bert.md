@@ -96,9 +96,9 @@ samples_io = SamplesIO("out/", writer, target_extension=".tsv.gz")
 
 ```python
 pipeline_item = BertExperimentInputSerializerPipelineItem(
-    sample_rows_provider=None,
+    sample_rows_provider=sample_rows_provider,
     samples_io=samples_io,
-    save_labes_func=lambda data_type: True,
+    save_labels_func=lambda data_type: True,
     balance_func=lambda data_type: data_type == DataType.Train)
 ```
 
