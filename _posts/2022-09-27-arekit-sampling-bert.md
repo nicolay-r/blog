@@ -116,6 +116,8 @@ and setup Data Folding (`data_folding`):
 * [Craft your text-opinion annotation pipeline!](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-opinion-annotation-pipeline)
 * [Data Folding Setup](https://nicolay-r.github.io/blog/articles/2022-09/arekit-sampling)
 
+Or just follow the [complete tutorial implemenation](https://github.com/nicolay-r/AREkit/blob/c66ea454051adfd09d37ed8a6aed143b5e2ab186/tests/tutorials/test_tutorial_pipeline_sampling_bert.py#L71)
+
 Finally, we can compose pipeline by wrapping a predefined `pipeline_item` and then run it!
 This could be accomplished as follows:
 ```python
