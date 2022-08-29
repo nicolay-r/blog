@@ -7,7 +7,11 @@ visible: 0
 tags: [AREkit, Samples, Neural Networks, BERT]
 ---
 
+In this tutorial we provide a list of steps required to prepare samples with text opinions for BERT language model.
+
 <!--more-->
+
+> [Complete tutorial code implementation](https://github.com/nicolay-r/AREkit/blob/c66ea454051adfd09d37ed8a6aed143b5e2ab186/tests/tutorials/test_tutorial_pipeline_sampling_bert.py#L71)
 
 > **NOTE:** This post represents an updated version of the prior one
 >["Process Mass-Media relations for Language Models with AREkit"](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit)
@@ -104,6 +108,8 @@ pipeline_item = BertExperimentInputSerializerPipelineItem(
 
 
 ## Running Sampler
+
+> [Complete tutorial code implementation](https://github.com/nicolay-r/AREkit/blob/c66ea454051adfd09d37ed8a6aed143b5e2ab186/tests/tutorials/test_tutorial_pipeline_sampling_bert.py#L71)
 
 Please refer to the following posts in order to initialize your text opinion annotation pipeline (`annot_pipeline`)
 and setup Data Folding (`data_folding`):
