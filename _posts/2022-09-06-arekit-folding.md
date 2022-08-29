@@ -24,12 +24,9 @@ In order to describe document separation format, AREkit-0.22.1 provides the `Bas
 which in short could be described in the following snippet:
 ```python
 class BaseDataFolding(object):
-    
     # ... other contents
-    
     def fold_doc_ids_set(self):
         raise NotImplementedError()
-
 ```
 
 According to the implementation above, declaring your own folding required `fold_doc_ids_set` implemenation.
