@@ -35,7 +35,8 @@ We declare Sentiment scaller as follows:
 > **NOTE**: adopt `CustomSentimentLabelScaler` which is nested from the `SentimentLabelScaler` since the latter provides 
 labels inversion `invert_label` required for frames (role label scaler); as an another solution is to provide a diffrent 
 label scalers, however within this tutorial it was decide to adopt a single label scaler.
-```
+
+```python
 class CustomSentimentLabelScaler(SentimentLabelScaler):
     def __init__(self):
         int_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), -1)])
