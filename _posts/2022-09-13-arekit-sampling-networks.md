@@ -30,14 +30,14 @@ class Negative(Label):
 Next step, we declare label scaler. 
 Scaler (`BaseLabelScaler` class) allows us to provide conversion from `Label` type to `int`/`uint` values and vice versa. 
 We declare Sentiment scaller as follows:
-
-```
-class SentimentLabelScaler(BaseLabelScaler):
+> **NOTE** here we derive `CustomSentimentLabelScaler` from `SentimentLabelScaler` as the latter provides
+`invert_label` method dedicated for sentiment label inversion; for example to convert `Postive` label to `Negative` one and vice versa.
+```python
+class CustomSentimentLabelScaler(SentimentLabelScaler):
     def __init__(self):
         int_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), -1)])
         uint_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), 2)])
-        super(SentimentLabelScaler, self).__init__(
-            int_dict=int_to_label, uint_dict=uint_to_label)
+        super(SentimentLabelScaler, self).__init__(int_dict=int_to_label, uint_dict=uint_to_label)
 ```
 
 For such conventional neural networks as Convolutional NN's, Recurrent NN's,
@@ -62,11 +62,10 @@ In terms of frames connotations, we are kindly refer to our another post
 in which we cover frame-based providers (Russian resource based only).
  
 ```python
-ctx = CustomNetworkSerializationContext(
-    labels_scaler=SentimentLabelScaler(),
+ctx = NetworkSerializationContext(
+    labels_scaler=CustomSentimentLabelScaler(),
     pos_tagger=POSMystemWrapper(mystem=stemmer.MystemInstance),
-    frames_collection=frames_collection,
-    frame_variant_collection=frame_variant_collection,
+    frame_roles_label_scaler=CustomSentimentLabelScaler(),
     frames_connotation_provider=RuSentiFramesConnotationProvider(frames_collection))
 ```
 
