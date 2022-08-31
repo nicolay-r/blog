@@ -94,6 +94,7 @@ class CustomLabelsFormatter(StringLabelsFormatter):
 Simple predefined annotator for the case, when we already have annotated text opinions (like BRAT-based collections). 
 For texts in Russian, this might be a [NEREL collection](https://github.com/nerel-ds/NEREL).
 The snipped below illstrates on how the annotator of the predefined relations might be implemented:
+
 ```python
 class PositiveLabel(Label):
     pass
@@ -112,6 +113,7 @@ The snippet below illustrates the way on how document level opinions, provided s
 might be adopted and then converted to text opinions. 
 This conversion is performed via `RuSentRelOpinionCollection.iter_opinions_from_doc` 
 which leave outside of this post.
+
 ```python
 predefined_annotator = AlgorithmBasedTextOpinionAnnotator(
     annot_algo=PredefinedOpinionAnnotationAlgorithm(
@@ -160,12 +162,15 @@ In this section we provide the details on which filters might be declared.
 The base class for the opinion filter declaration has the following API:
 > **NOTE**: We consier entity service by default in order to accelerate filtering process since
 this service is the most required in filtering across the predefined filters.
+
 ```python
 class TextOpinionFilter(object):
     def filter(self, text_opinion, parsed_news, entity_service_provider):
         raise NotImplementedError()
 ```
+
 Where the its custom implementation might be as follows:
+
 ```python
 class CustomEntityFilter(EntityFilter):
     supported = ["GPE", "PERSON", "LOCAL", "GEO", "ORG"]
@@ -176,12 +181,14 @@ class CustomEntityFilter(EntityFilter):
 ```
 
 Here is how the filter, based on the entity filtering details, might be gathered:
+
 ```python
 custom_filter = EntityBasedTextOpinionFilter(entity_filter=CustomEntityFilter())
 ```
 
 In the snippet below, we consider only those text opinions, 
 in which distance in terms between participats is not exceeds amount of `50`:
+
 ```python
 distance_filter = DistanceLimitedTextOpinionFilter(terms_per_context=50)
 ```
