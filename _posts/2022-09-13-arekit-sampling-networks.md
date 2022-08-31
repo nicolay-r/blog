@@ -9,6 +9,8 @@ tags: [AREkit, Samples, Neural Networks, CNN, RNN]
 
 <!--more-->
 
+> [Code implementation](https://github.com/nicolay-r/AREkit/blob/6b0427201e41729f342046ec2261a0a2c6eda139/tests/tutorials/test_tutorial_pipeline_sampling_network.py#L52)
+
 > **NOTE:** This post represents an updated version of the prior one 
 >["Process Mass-Media relations for Language Models with AREkit"](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit)
 ; in the prior one we describe sampling process from scratch and under older API version *AREkit-0.22.0*.
@@ -30,14 +32,14 @@ class Negative(Label):
 Next step, we declare label scaler. 
 Scaler (`BaseLabelScaler` class) allows us to provide conversion from `Label` type to `int`/`uint` values and vice versa. 
 We declare Sentiment scaller as follows:
-> **NOTE** here we derive `CustomSentimentLabelScaler` from `SentimentLabelScaler` as the latter provides
-`invert_label` method dedicated for sentiment label inversion; for example to convert `Postive` label to `Negative` one and vice versa.
-```python
-class CustomSentimentLabelScaler(SentimentLabelScaler):
+
+```
+class SentimentLabelScaler(BaseLabelScaler):
     def __init__(self):
         int_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), -1)])
         uint_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), 2)])
-        super(SentimentLabelScaler, self).__init__(int_dict=int_to_label, uint_dict=uint_to_label)
+        super(SentimentLabelScaler, self).__init__(
+            int_dict=int_to_label, uint_dict=uint_to_label)
 ```
 
 For such conventional neural networks as Convolutional NN's, Recurrent NN's,
@@ -62,10 +64,11 @@ In terms of frames connotations, we are kindly refer to our another post
 in which we cover frame-based providers (Russian resource based only).
  
 ```python
-ctx = NetworkSerializationContext(
-    labels_scaler=CustomSentimentLabelScaler(),
+ctx = CustomNetworkSerializationContext(
+    labels_scaler=SentimentLabelScaler(),
     pos_tagger=POSMystemWrapper(mystem=stemmer.MystemInstance),
-    frame_roles_label_scaler=CustomSentimentLabelScaler(),
+    frames_collection=frames_collection,
+    frame_variant_collection=frame_variant_collection,
     frames_connotation_provider=RuSentiFramesConnotationProvider(frames_collection))
 ```
 
@@ -121,6 +124,8 @@ pipeline_item = NetworksInputSerializerPipelineItem(
 ```
 
 ## Running Sampler
+
+> [Code implementation](https://github.com/nicolay-r/AREkit/blob/6b0427201e41729f342046ec2261a0a2c6eda139/tests/tutorials/test_tutorial_pipeline_sampling_network.py#L52)
 
 Please refer to the following posts in order to initialize your text opinion annotation pipeline (`annot_pipeline`)
 and setup Data Folding (`data_folding`):
