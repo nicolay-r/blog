@@ -15,34 +15,40 @@ tags: [AREkit, Samples, Neural Networks, CNN, RNN]
 
 ## Sampler Initialization
 
+First, it is necessary to declare labels expected to adopted in further samples preparation process. 
+In this post we focused on sentiment-related data sampling and therefore considering the following set of labels: 
+`Positive`, `Negative` and additionally *neutral*, type of `NoLabel` which AREkit provides by default.
+
+```python
+class Positive(Label):
+    pass
+
+class Negative(Label):
+    pass
+```
+
+Next step, we declare label scaler. 
+Scaler (`BaseLabelScaler` class) allows us to provide conversion from `Label` type to `int`/`uint` values and vice versa. 
+We declare Sentiment scaller as follows:
+
+```
+class SentimentLabelScaler(BaseLabelScaler):
+    def __init__(self):
+        int_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), -1)])
+        uint_to_label = OrderedDict([(NoLabel(), 0), (Positive(), 1), (Negative(), 2)])
+        super(SentimentLabelScaler, self).__init__(
+            int_dict=int_to_label, uint_dict=uint_to_label)
+```
+
 For such conventional neural networks as Convolutional NN's, Recurrent NN's,
 it is expected that we manually provide input vectors (embeddings), 
 including vocabulary of the supported words.
 Therefore there is a need at first initialize the auxilary structures in order 
 to then adopt them in sampler initialization.
 
-Starting with an embedding preparation.
 ```python
 stemmer = MystemWrapper()
 embedding = load_embedding_news_mystem_skipgram_1000_20_2015(stemmer)
-```
-
-Label scaler
-```python
-class PositiveTo(Label):
-    pass
-
-class NegativeTo(Label):
-    pass
-
-class SentimentLabelScaler(BaseLabelScaler):
-    def __init__(self):
-        int_to_label = OrderedDict([
-            (NoLabel(), 0), (PositiveTo(), 1), (NegativeTo(), -1)])
-        uint_to_label = OrderedDict([
-            (NoLabel(), 0), (PositiveTo(), 1), (NegativeTo(), 2)])
-        super(SentimentLabelScaler, self).__init__(
-            int_dict=int_to_label, uint_dict=uint_to_label)
 ```
 
 Network serialization context -- is a structure of the data required during sampling.
@@ -95,7 +101,6 @@ might be initialized as follows:
 ```python
 embedding_io = NpEmbeddingIO(target_dir="out/")
 ```
-
 
 And now, we are finally ready to compose our serializer!
 The latter represents a pipeline item, -- is an object which might be embedded into AREkit pipelines.
