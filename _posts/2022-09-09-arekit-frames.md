@@ -39,24 +39,31 @@ class FrameVariantsCollection(object):
 
 ## RuSentiFrames -- Frame Variants Provider
 
+First, it is necessary to declare labels. 
+We consider the following types:
+`Positive`, `Negative`.
+
 ```python
-class PositiveTo(Label):
+class Positive(Label):
     pass
 
-class NegativeTo(Label):
+class Negative(Label):
     pass
+```
 
+Next step, we declare frames collection:
+
+```python
 frames_collection = RuSentiFramesCollection.read_collection(
     version=RuSentiFramesVersions.V20,
     labels_fmt=RuSentiFramesLabelsFormatter(
-        pos_label_type=PositiveTo, neg_label_type=NegativeTo),
+        pos_label_type=Positive, neg_label_type=Negative),
     effect_labels_fmt=RuSentiFramesEffectLabelsFormatter(
-        pos_label_type=PositiveTo, neg_label_type=NegativeTo))
+        pos_label_type=Positive, neg_label_type=Negative))
 ```
 
 Then, variant collection might be initialized as follows:
 ```python
-# Frame variant collection.
 frame_variant_collection = FrameVariantsCollection()
 frame_variant_collection.fill_from_iterable(
     variants_with_id=frames_collection.iter_frame_id_and_variants(),
