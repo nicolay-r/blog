@@ -7,7 +7,7 @@ visible: 0
 tags: [AREkit, Frames, Connotations, RuSentiFrames]
 ---
 
-![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-data-frames.png)
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-frames.png)
 
 <!--more-->
 
