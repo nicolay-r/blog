@@ -41,6 +41,10 @@ class FrameVariantsCollection(object):
 
 ## RuSentiFrames -- Frame Variants Provider
 
+[RuSentiFrames](https://github.com/nicolay-r/RuSentiFrames) Represents a lexicon which describes sentiments and connotations conveyed with a predicate in a verbal or nominal form. 
+Checkout the related [paper](https://aclanthology.org/R19-1118/) for greater details.
+AREkit supports this frames collection out-of-the-box.
+
 First, it is necessary to declare labels. 
 We consider the following types:
 `Positive`, `Negative`.
@@ -73,6 +77,9 @@ frame_variant_collection.fill_from_iterable(
     raise_error_on_existed_variant=False)
 ```
 
+Frame variant collection might be adopted in text parsing.
+Checkout [AREkit Tutorial: Compose your text-processing pipeline!](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-parsing-pipeline) for a greater details.
+
 ## Connotation Provider
 
 In such cases when the only information required from frames is their connections between 
@@ -98,3 +105,7 @@ class RuSentiFramesConnotationProvider(FrameConnotationProvider):
 
 frames_connotation_provider = RuSentiFramesConnotationProvider(frames_collection)
 ```
+
+Connotation provider might be adopted in samples preparation for neural networks.
+Checkout [AREkit Tutorial: Sample Mass-Media Text Opinions for Neural Network](https://nicolay-r.github.io/blog/articles/2022-09/arekit-sampling-networks)
+for a greater details.
