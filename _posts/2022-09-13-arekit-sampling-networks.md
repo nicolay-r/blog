@@ -7,6 +7,9 @@ visible: 0
 tags: [AREkit, Samples, Neural Networks, CNN, RNN]
 ---
 
+In this tutorial we provide a list of steps required to prepare samples with text opinions for 
+neural networks like convolutional or recurrent one.
+
 <!--more-->
 
 > [Code implementation](https://github.com/nicolay-r/AREkit/blob/6b0427201e41729f342046ec2261a0a2c6eda139/tests/tutorials/test_tutorial_pipeline_sampling_network.py#L52)
@@ -80,6 +83,7 @@ ctx = NetworkSerializationContext(
 **Vectorizers** -- algorithms of the vectors generation for text terms of any type.
 AREkit provides the set of the following text **tokens**: word, entity, frame, token (punctuation sign, numbers, URL-links).
 For each token type, it is possible to provide a custom vectorizer.
+
 ```python
 bpe_vectorizer = BPEVectorizer(embedding=embedding, max_part_size=3)
 norm_vectorizer = RandomNormalVectorizer(vector_size=embedding.VectorSize, 
@@ -105,6 +109,7 @@ Besides the samples itself, it is necessary to provide the **formatting for embe
 By defualt, AREkit provides numpy-based and text encoders for storing embedding and vocabulary respectively.
 `NpEmbeddingIO` provides such functionality, and therefore formatting based on the capabilities of the latter 
 might be initialized as follows:
+
 ```python
 embedding_io = NpEmbeddingIO(target_dir="out/")
 ```
@@ -139,6 +144,7 @@ and setup Data Folding (`data_folding`):
 
 Finally, we can compose pipeline by wrapping a predefined `pipeline_item` and then run it!
 This could be accomplished as follows:
+
 ```python
 pipeline = BasePipeline([
     pipeline_item
@@ -155,6 +161,7 @@ Finally our result is a content of the `out` directory.
 The contents depend on Data Folding format.
 For example, in case of the *fixed* folding onto `Train` and `Test` data types,
 it is expected to see the following set of contents:
+
 ```
 ./out/
     sample_train.tsv.gz
