@@ -7,6 +7,8 @@ visible: 0
 tags: [AREkit, Frames, Connotations, RuSentiFrames]
 ---
 
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-data-frames.png)
+
 <!--more-->
 
 Core component of the AREkit-0.22.1 framework is a `FrameVariant`.
