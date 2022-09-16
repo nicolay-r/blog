@@ -16,6 +16,9 @@ The **Variant** suffix here denotes a one potential form of entry which stands b
 frame identifier.
 This entry contains list of terms (`terms`) and its identifier (`frame_id`):
 
+> **NOTE** Using `lower()` method for lowercasing is the missed refactoring of the AREkit=0.22.1 which is expected to 
+be considered within the next releases. Issue [#403](https://github.com/nicolay-r/AREkit/issues/403) 
+
 ```python
 class FrameVariant(object):
     def __init__(self, text, frame_id):
