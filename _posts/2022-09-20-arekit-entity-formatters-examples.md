@@ -3,9 +3,11 @@ layout: post
 title: "AREkit Tutorial: Entity Values Formatting Examples"
 description: "AREkit Tutorial: Entity Values Formatting Examples"
 category: POST
-visible: 0
+visible: 1
 tags: [AREkit, Entity, Masking, Examples]
 ---
+
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-entities.png)
 
 This short post illustrates implementation of the base entity formatter.
 Entity formatter is requred for formatting values of mentioned named entities, masking them.
