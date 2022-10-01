@@ -16,12 +16,13 @@ In this tutorial we provide a list of steps required to prepare samples with tex
 > **NOTE:** This post represents an updated version of the prior one
 >["Process Mass-Media relations for Language Models with AREkit"](https://nicolay-r.github.io/blog/articles/2022-05/process-mass-media-relations-with-arekit)
 ; in the prior one we describe sampling process from scratch and under older API version *AREkit-0.22.0*.
->
+
 ## Sampler Initialization
 
 First, it is necessary to declare labels expected to adopted in further samples preparation process.
 In this post we focused on sentiment-related data sampling and therefore considering the following 
 set of labels: `Positive`, `Negative` and additionally *neutral*, type of `NoLabel` which AREkit provides by default.
+
 ```python
 class Positive(Label):
     pass
@@ -33,6 +34,7 @@ class Negative(Label):
 Next step, we declare label scaler.
 *Scaler* (`BaseLabelScaler` class) allows us to provide conversion from `Label` type to `int`/`uint` values and vice versa.
 We declare Sentiment scaller as follows:
+
 ```python
 class SentimentLabelScaler(BaseLabelScaler):
     def __init__(self):
@@ -53,6 +55,7 @@ At present, `text_b` template is expected to contain a placeholders for `subject
 where *context* corresponds to a text part between `subject` and `object`.
 For texts in Russian, we assign the following **NLI-styled** (Natural Language Inference) prompt:
 > NOTE: you may left `text_b_tempalete` as **None** once you don't want to consider a separated sequence.
+
 ```python
 text_b_template = '{subject} к {object} в контексте : << {context} >>'
 ```
@@ -70,6 +73,7 @@ text opinion participants, i.e. subject and object respectively.
 
 Depending on the `text_b_template` we may declare a single text provider (i.e. `TextA` only)
 or pair-based one:
+
 ```python
 terms_mapper = BertDefaultStringTextTermsMapper(
     entity_formatter=CustomEntitiesFormatter(
@@ -81,6 +85,7 @@ text_provider = BaseSingleTextProvider(terms_mapper) \
 ```
 
 Finally we may compose sample rows provider:
+
 ```python
 sample_rows_provider = BaseSampleRowProvider(
     label_provider=MultipleLabelProvider(SentimentLabelScaler()),
@@ -120,6 +125,7 @@ Or just follow the [complete tutorial implemenation](https://github.com/nicolay-
 
 Finally, we can compose pipeline by wrapping a predefined `pipeline_item` and then run it!
 This could be accomplished as follows:
+
 ```python
 pipeline = BasePipeline([
     pipeline_item
@@ -136,6 +142,7 @@ Finally our result is a content of the `out` directory.
 The contents depend on Data Folding format.
 For example, in case of the *fixed* folding onto `Train` and `Test` data types,
 it is expected to see the following set of contents:
+
 ```
 ./out/
     sample_train.tsv.gz
