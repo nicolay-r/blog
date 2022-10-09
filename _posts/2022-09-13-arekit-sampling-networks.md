@@ -7,6 +7,8 @@ visible: 0
 tags: [AREkit, Samples, Neural Networks, CNN, RNN]
 ---
 
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-collection-sampling-nn.png)
+
 In this tutorial we provide a list of steps required to prepare samples with text opinions for 
 neural networks like convolutional or recurrent one.
 
