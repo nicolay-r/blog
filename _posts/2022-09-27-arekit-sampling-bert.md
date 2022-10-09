@@ -7,6 +7,8 @@ visible: 0
 tags: [AREkit, Samples, Neural Networks, BERT]
 ---
 
+![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-collection-sampling-bert.png)
+
 In this tutorial we provide a list of steps required to prepare samples with text opinions for BERT language model.
 
 <!--more-->
