@@ -25,3 +25,7 @@
 @import "pages/tags";
 @import "pages/archive";
 @import "pages/post";
+
+.nowrap{
+  @extend .highlight;
+}
