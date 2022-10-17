@@ -10,7 +10,8 @@ Calculation of the derivatives plays a significant role in neural networks tunin
 The computational effectivenes is very crusial considering a large models and ability to train them.
 Besides the `CPU` and one of the most common option for calculations, recent advances finds a significant application of `GPU` and `TPUs`
 mostly because of a potentially greater performance vs. the central processing unit.
-Obvioulsy, such features would be available without a special software support, networks compilation towards the targeted device and platform.
+Obvioulsy, such features won't be available without a special software support, required for networks compilation
+towards the targeted processing unit.
 
 <!--more-->
 
@@ -18,15 +19,15 @@ Obvioulsy, such features would be available without a special software support, 
 [autograd](https://github.com/hips/autograd)
 and [XLA](https://www.tensorflow.org/xla) 
 compiler in order to bring neural networks  onto the computational devices in a most efficient way.
-However, speaking about `GPU` and more nn oriented devices as `TPU`, it is pretty important to perform a proper library setup in order to 
-make them available for `JAX`.
-`JAX` is widely used for transformers, which significant amount of applications could be found for 
-[T5](https://github.com/google-research/t5x), with their variations and optimisations formed into another 
-[flaxformer](https://github.com/google/flaxformer) project.
+However, speaking about `GPU` and more nn oriented devices as `TPU`, it is pretty important to perform a 
+proper library setup in order to make them available to use.
+`JAX` is widely used for transformers, where [T5](https://github.com/google-research/t5x) founds its implementation, 
+including other variations formed into another [flaxformer](https://github.com/google/flaxformer) project.
 
-In this post we address on the issue you may encountered with once decided to apply this library for `GPU` devices.
-The latter is required to make library frienly and familiar with such frameworks as: NVidia CUDA compiler (`ncdu`), CUDA DNN (`cudnn`).
-We took the steps and refer to the experience proposed in [JAX installation with Nvidia CUDA and cudNN support](https://www.youtube.com/watch?v=auksaSl8jlM) video by [Avkash Chauhan](https://twitter.com/prodramp).
+In this post we address on the issue you may encountered with once decided to apply `Jax` library for `GPU` calculations.
+It is required to make library frienly and familiar with such toolkits: NVidia CUDA compiler (`ncdu`), CUDA DNN (`cudnn`).
+Most of the steps were taken from the [JAX installation with Nvidia CUDA and cudNN support](https://www.youtube.com/watch?v=auksaSl8jlM) 
+video by [Avkash Chauhan](https://twitter.com/prodramp).
 
 Let's get started!
 
