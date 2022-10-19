@@ -31,7 +31,17 @@ video by [Avkash Chauhan](https://twitter.com/prodramp).
 
 Let's get started!
 
-The problem that you may enconter first is that you got installed the ordinary version of the related library dubbed as `jaxlib`
+The problem that you may enconter first is that you got installed the ordinary version of the related library dubbed as `jaxlib`.
+For example and in case of training T5 model, you may see the following logs:
+
+```shell
+[xla_bridge.py:356] Unable to initialize backend 'tpu_driver': NOT_FOUND: Unable to find driver in registry given worker:
+[xla_bridge.py:356] Unable to initialize backend 'cuda': module 'jaxlib.xla_extension' has no attirbute 'GpuAllocatorConfig'
+[xla_bridge.py:356] Unable to initialize backend 'rocm': module 'jaxlib.xla_extension' has no attirbute 'GpuAllocatorConfig'
+...
+[xla_bdridge.py:363] No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+```
+
 At first, let's say we have installed:
 ```shell
 jax==0.3.21
