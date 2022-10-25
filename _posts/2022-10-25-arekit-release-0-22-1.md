@@ -3,7 +3,7 @@ layout: post
 title: "AREkit and What's new in Release 0.22.1"
 description: "AREkit and What's new in Release 0.22.1"
 category: POST
-tags: [AREkit, Relese, AREkit-0.22.1, Pipelines, BRAT, OpenNRE, Tutorials, SeqIO]
+tags: [AREkit, Release, AREkit-0.22.1, Pipelines, BRAT, OpenNRE, Tutorials, SeqIO]
 ---
 
 ![alt text](https://user-images.githubusercontent.com/14871187/188810264-d7ea509b-6d6b-4cd4-bebd-cf1f15f9d4a9.png)
@@ -12,7 +12,7 @@ We are happy to announce the [AREkit version 21.1](https://github.com/nicolay-r/
 
 In this post we cover the most imporant changes were done since the prior release.
 The complete and large list of the updates could be found on the 
-[release page](https://github.com/nicolay-r/AREkit/releases/tag/v0.22.1-rc) .
+[release page](https://github.com/nicolay-r/AREkit/releases/tag/v0.22.1-rc).
 
 <!--more-->
 
@@ -28,9 +28,9 @@ For now, AREkit allows us to do the preprocessing work with
 
 Alongside with the AREkit, we also update the [ARElight-21.1](https://github.com/nicolay-r/ARElight). 
 The latter allows you to perform the quick stabilization of the
-input text from your Council.And you can also find the update.
-Please follow the release notes for a greater details according to the 
-[following link](https://github.com/nicolay-r/ARElight/releases/tag/0.22.1-p1).
+input text from your console.
+In terms of the list of the complete changes,
+please follow the [release notes](https://github.com/nicolay-r/ARElight/releases/tag/0.22.1-p1).
 
 ![alt text](https://user-images.githubusercontent.com/14871187/188832503-1bb27da4-97cf-48d7-ae52-026e75c38721.png)
 
@@ -39,9 +39,10 @@ This is a list of examples over
 the sequence of the three major points of the application. We collect all the
 tutorials and separate them [onto the three stage](https://nicolay-r.github.io/blog/articles/2022-08/arekit-sources-sampling-pipeline), 
 related to:
-1. embedding the [custom collection](https://nicolay-r.github.io/blog/articles/2022-08/arekit-collection-bind).
-2. app creation of the pipelines for [**processing texts**](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-parsing-pipeline), 
-for a way of [**annotating attitudes**](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-opinion-annotation-pipeline) in it. 
+1. embedding the [custom collection](https://nicolay-r.github.io/blog/articles/2022-08/arekit-collection-bind);
+2. declaration of the pipelines for
+   * [**text processing**](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-parsing-pipeline);
+   * [**attitudes annotation**](https://nicolay-r.github.io/blog/articles/2022-08/arekit-text-opinion-annotation-pipeline);
 3. contexts with text opinions [serialization](https://nicolay-r.github.io/blog/articles/2022-09/arekit-sampling-bert).
 
 ![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/arekit-sources-sampling-pipeline.png)
