@@ -16,11 +16,11 @@ Almost a month ago we discovery the recent advanced in LLM reasoning. All the di
 
 Here is the three keypoint you might take out of it:
 
-💚 1. High level of agreement. Reasoning within context for time-based relations. They are very grammar dependent, which it becomes the may reason model has a huge alignment rate. (Credits to transformer architecture and self-attention)
+💚 1. **High level of agreement.** Reasoning within context for time-based relations. They are very grammar dependent, which it becomes the may reason model has a huge alignment rate. (Credits to transformer architecture and self-attention)
 
-💛 2. Medum level of agreement. Locations and position related types of relations. LLM models may end up with non-definitive meaning of relation types. The exceptional cases are: relations that involve well-known politicians and countries.
+💛 2. **Medum level of agreement.** Locations and position related types of relations. LLM models may end up with non-definitive meaning of relation types. The exceptional cases are: relations that involve well-known politicians and countries.
 
-❤️ 3. The low result were mainly caused by (i) terminology misalignment and (ii) sharper reasoning from LLM. This is a case where context is expected to be enriched and/or the meaning of relation type is better described.
+❤️ 3. **Low level of agreement** were mainly caused by (i) terminology misalignment and (ii) sharper reasoning from LLM. This is a case where context is expected to be enriched and/or the meaning of relation type is better described.
 
 For everything mentioned above, we eleminate such cases as: (i) issues with translation, (ii) network hallucination. If the first was mostly a technical trait of implementation, the hallucination is one thing that still remains poorly covered.
 
@@ -31,6 +31,5 @@ And thanks for AREkit double-s (AREkit-ss) which makes these studies available t
 Thank you for reading, interest and support! 🙏
 
 🌟 AREkit "double-s": https://github.com/nicolay-r/arekit-ss 
-🌟 AREkit core: https://github.com/nicolay-r/AREkit 
 
-#LLM #ChatGPT #relations #NEREL #dataset #analysis #reasoning #sampling #arekit #naturallangageprocessing
+🌟 AREkit core: https://github.com/nicolay-r/AREkit 
