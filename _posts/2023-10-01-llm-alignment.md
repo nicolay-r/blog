@@ -8,7 +8,7 @@ tags: [AREkit, arekit-ss, ChatGPT-3.5, GPT, LLM, ChatGPT, relations, NEREL, data
 
 ![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/2023-10-01-llm-alignment-logo.png)
 
-Let me share a quick summary and update on misalignment between LLM reasonining and manually annotated relations in mass media-news.
+Let me share a quick summary and update on misalignment between LLM reasoning and manually annotated relations in mass media-news.
 
 Almost a month ago we discovery the recent advanced in LLM reasoning. All the discussed and analyzed materials were formed into presentation with following slides (in Russian):
 
@@ -26,10 +26,10 @@ For everything mentioned above, we eleminate such cases as: (i) issues with tran
 
 And thanks for AREkit double-s (AREkit-ss) which makes these studies available to replicate and spread on other languages. Feel free to check out or share them below to sample data with the one line! 🔥
 
-💻 https://github.com/nicolay-r/arekit-ss/issues/52
+💻 [https://github.com/nicolay-r/arekit-ss/issues/52](https://github.com/nicolay-r/arekit-ss/issues/52)
 
 Thank you for reading, interest and support! 🙏
 
-🌟 AREkit "double-s": https://github.com/nicolay-r/arekit-ss 
+🌟 AREkit "double-s": [https://github.com/nicolay-r/arekit-ss](https://github.com/nicolay-r/arekit-ss)
 
-🌟 AREkit core: https://github.com/nicolay-r/AREkit 
+🌟 AREkit core: [https://github.com/nicolay-r/AREkit](https://github.com/nicolay-r/AREkit)
