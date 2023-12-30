@@ -7,7 +7,7 @@ tags: [Visa, UK, ATAS, Visa-application, Academic Approval Scheme, Skilled Worke
 ---
 
 ![decision](https://github.com/nicolay-r/blog/assets/14871187/40423fba-33bb-4e88-a534-1a172b7e43e9)
-> **Picture:** Observation wheel of the new spot 🎡 or such adventures traits?
+> **Picture:** Observation wheel of the new spot 🎡 or such an adventure traits?
 
 When contranct is about to over or any other circumstaces sings to its termination, 
 it becomes a time of personal iterest in eligibility of your further rights to work and stay in country. 
