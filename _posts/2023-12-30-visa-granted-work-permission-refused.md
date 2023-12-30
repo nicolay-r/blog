@@ -63,7 +63,7 @@ Breathe out, right❓ Yes, and how was that afterwards:
 * Reaching out UK Visas and Immigration service (UKVI) 🤙 I've been informed to [search for the local legal to contact the Legal Center for Immigration Enquiries](https://portal.oisc.gov.uk/s/adviser-finder)
   after a call to UKVI (basically they share only information from GOV.UK)
   
-I called 🤙 and booked an appointment at the local [Legal Center](https://newcastlelegalcentre.co.uk/) which is at 14 West Rd, Newcastle upon Tyne NE4 9HB,
+I called 🤙 and booked an appointment at the local [Legal Center](https://newcastlelegalcentre.co.uk/) which is at `14 West Rd, Newcastle upon Tyne NE4 9HB`,
 the next day and was informed to bring all the necessary documents for case explanation. 
 The advisor in legal center has navigate me straightaway to the 
 [Sponsor guidance part-2 at GOV.UK](https://www.gov.uk/government/publications/workers-and-temporary-workers-guidance-for-sponsors-part-2-sponsor-a-worker), 
