@@ -39,23 +39,29 @@ That means I knew for how long to await for the decision so I can barely arrange
 
 After a 6 weeks of pacient awaitance, the patience has become no longer a working strategy. And that point where you may start investigate how others cope it. 
 The latter become a reason I was [running into the following case](https://www.youtube.com/watch?v=JGRoneLU19E), and that makes you guess you're not the only there with long-term awaitance.
-You may strongly recommend to start being active after that. Your HR is the only rescue team from this, and you should get the most out of conversation with them.
+Your overall goal is to obtain **Certificate-of-Sponsorship**, or CoS in short. The latter prescribes your starting day of the contract, and ending day (if applicable and in the case of the fixed term contract).
+You may strongly recommend to start being active after 6 weeks and even after 2 months of awaitance! 
+Your HR is the only rescue team from this, and you should get the most out of conversation with them.
 
 Sadly to say, I found the related team in a very improfessional way. Through the journey of assisting and finding a way for issuing documents **without ATAS** took me the whole month!
 Throgh this, you realise on how useless the calls to HR and how you should form messages to reach the team.
 
 So that end of the story that was sorted just in **7 days of my remaining eligiblity to stay in UK**:
-* Team found a way on how to issue Certificate of sponsorship without ATAS.
+* Team found a way on how to issue Certificate of sponsorship without ATAS certificate. 🎊
 * I've submitted for the fast tracking option and got a new BRP within **5 working days** 🏎️
 
 > Credits to the [VISA fast tracked option](https://www.gov.uk/faster-decision-visa-settlement) 🎊 
 
 Breathe out, right! Yes, and how was that afterwards:
 * I got a letter with the **REJECTED** decision from the ATAS department.
-* Reaching out UKVI 🤙 I've been informed to search for the local legal to contact the Legal Center for Immigration Enquiries after a call to UKVI (basically they share only information from GOV.UK)
+* Reaching out UKVI 🤙 I've been informed to [search for the local legal to contact the Legal Center for Immigration Enquiries](https://portal.oisc.gov.uk/s/adviser-finder)
+  after a call to UKVI (basically they share only information from GOV.UK)
   
-I called 🤙 and booked an appointment at the local Legal Center (14 West Rd, Newcastle upon Tyne NE4 9HB) the next day and was informed to bring all the necessary documents for case explanation. 
-The advisor in legal center has navigate me straightaway to the sponsor guidance part-2 at gov-uk, where the related document says.
+I called 🤙 and booked an appointment at the local Legal Center ([14 West Rd, Newcastle upon Tyne NE4 9HB](https://newcastlelegalcentre.co.uk/)) 
+the next day and was informed to bring all the necessary documents for case explanation. 
+The advisor in legal center has navigate me straightaway to the 
+[Sponsor guidance part-2 at GOV.UK](https://www.gov.uk/government/publications/workers-and-temporary-workers-guidance-for-sponsors-part-2-sponsor-a-worker), 
+where the related document says.
 
 > **Legal worker**: If the home office accepts and grants with rights to be in UK under certain conditions, covered by “employment allowed” section
 > then the overall process of issuing an ATAS certificate is no longer applicable.
