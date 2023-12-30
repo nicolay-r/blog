@@ -6,7 +6,9 @@ category: POST
 tags: [AREkit, arekit-ss, ChatGPT-3.5, GPT, LLM, ChatGPT, relations, NEREL, dataset, analysis, reasoning, sampling]
 ---
 
-![alt text](https://raw.githubusercontent.com/nicolay-r/blog/master/img/2023-08-25-llm-alignment-logo.jpeg)
+![alt text](https://github.com/nicolay-r/blog/assets/14871187/2f59ff36-481e-450e-8c59-c7c4f3efd822)
+
+<!--more-->
 
 The recent LLM capabilities of understanding text relations are insane 🔥 
 Especially when it is well and nicely visualized!
