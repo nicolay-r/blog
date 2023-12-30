@@ -10,7 +10,7 @@ tags: [Visa, UK, ATAS, Visa-application, Academic Approval Scheme, Skilled Worke
 > **Picture:** Observation wheel of the new spot 🎡 or such adventures traits?
 
 When contranct is about to over or any other circumstaces sings to its termination, 
-it becomes a time of personal iterest in eligibility for rights to work and stay in country. 
+it becomes a time of personal iterest in eligibility of your further rights to work and stay in country. 
 In some cases it might be just a simple switch to another position, but in others causes to issue 
 a new VISA. 
 
@@ -65,7 +65,7 @@ where the related document says.
 
 > **Legal worker**: If the home office accepts and grants with rights to be in UK under certain conditions, covered by “employment allowed” section
 > then the overall process of issuing an ATAS certificate is no longer applicable.
-> The latter means that it may have status “Refused” which could be treated as “Not Applicable”.
+> The latter means that it may have status “Refused” which **could be treated as “Not Applicable”**.
 
 If your employer accepts the conditions that are later on confirmed by the Home Office,
 then it is not my responsibility on any eligibility to have a right to work in the UK.
