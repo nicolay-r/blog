@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Visa Granted by Working permission Refused: 76 days of limbo or ATAS adventures"
-description: "Visa Granted by Working permission Refused: 76 days of limbo or ATAS adventures"
+title: "Visa Granted but Working permission Refused: 76 days of limbo or ATAS adventures"
+description: "Visa Granted but Working permission Refused: 76 days of limbo or ATAS adventures"
 category: POST
 tags: [Visa, UK, ATAS, Visa-application, Academic Approval Scheme, Skilled Worker]
 ---
@@ -64,15 +64,19 @@ Breathe out, right❓ Yes, and how was that afterwards:
   after a call to UKVI (basically they share only information from GOV.UK)
   
 I called 🤙 and booked an appointment at the local [Legal Center](https://newcastlelegalcentre.co.uk/) which is at `14 West Rd, Newcastle upon Tyne NE4 9HB`,
-the next day and was informed to bring all the necessary documents for case explanation. 
-The advisor in legal center has navigate me straightaway to the 
+the next day and been informed to bring all the necessary documents for case explanation.
+ 
+During my apporintment, the advisor at legal center has navigate me straightaway to the 
 [Sponsor guidance part-2 at GOV.UK](https://www.gov.uk/government/publications/workers-and-temporary-workers-guidance-for-sponsors-part-2-sponsor-a-worker), 
-where the related document says.
+and provide the following and general comments to this case:
 
-> **Legal worker**: If the home office accepts and grants with rights to be in UK under certain conditions, covered by “employment allowed” section
+> **Legal advisor**: If the home office accepts and grants with rights to be in UK under certain conditions, covered by “employment allowed” section
 > then the overall process of issuing an ATAS certificate is no longer applicable.
 > The latter means that it may have status “Refused” which **could be treated as “Not Applicable”**.
 
-If your employer accepts the conditions that are later on confirmed by the Home Office,
-then it is not my responsibility on any eligibility to have a right to work in the UK.
-In other words, for any further circumstances on that, the employer's organization (University) is taking responsibility.
+In other words, if your employer accepts the conditions that are later on confirmed by the Home Office,
+then it is no longer your responsibility as well as eligibility to have a wrong right to work in the UK.
+
+
+The decision of the Home Office is final, so anything that prevents it is likely no longer applicable.
+For any further circumstances on that, the employer's organization is taking responsibility.
