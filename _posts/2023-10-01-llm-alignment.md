@@ -10,6 +10,8 @@ tags: [AREkit, arekit-ss, ChatGPT-3.5, GPT, LLM, ChatGPT, relations, NEREL, data
 
 Let me share a quick summary and update on misalignment between LLM reasoning and manually annotated relations in mass media-news.
 
+<!--more-->
+
 Almost a month ago we discovery the recent advanced in LLM reasoning. All the discussed and analyzed materials were formed into presentation with following slides (in Russian):
 
 ✨ 📰 Slides: https://nicolay-r.github.io/website/data/report_llm2023-nerel.pdf 
