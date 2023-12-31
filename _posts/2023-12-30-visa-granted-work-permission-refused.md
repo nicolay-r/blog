@@ -25,8 +25,8 @@ VISA issuing.
 Academia tends to a be a way more tough route due to the additional approvements, necessary for issuing VISA.
 And one of them is [ATAS, or Academical Technology Approving Scheme](https://www.gov.uk/guidance/academic-technology-approval-scheme).
 In some particular cases, both PhD students and post-doc resarchers [might need to apply for this certificate](https://www.gov.uk/guidance/find-out-if-you-require-an-atas-certificate).
-Being relatively simple to complete and submit, the ATAS reviewing process represent a mini-version of US / Canada and other countries visa appication process.
-The form literaly prescribes you await for 6 weeks in general with **no fast-tracking options**.
+Being relatively simple in submission, the overall ATAS application reviewing process may be counted as  <<mini-version of the US 🇺🇸 / Canada 🇨🇦 VISA reviewing process>>.
+It literally [prescribes you](https://www.gov.uk/guidance/academic-technology-approval-scheme) (see "How long application take" section) await for 6 weeks in general with **no fast-tracking options**.
 So that, now you aware of applying as early as it possible, with 3 ... no, how about **6 months in advance recommendation!** 🤯
 Even more, from the form above you're also aware of canceling any settiling plans while awaiting for the result decision. 
 
