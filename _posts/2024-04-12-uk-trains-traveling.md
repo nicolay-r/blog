@@ -5,11 +5,12 @@ description: ""
 category: POST
 tags: [UK, Traveling, Trains]
 ---
-![screen_2024-08-09 13:05:40 677372](https://github.com/user-attachments/assets/4452cb3d-7a3e-4cc9-b74c-f2699b412d08)
-> Unexpected traveling plan: 1-2 Initial Route ⚫, but I took 3-4 🔴
+
+![Untitled](https://github.com/user-attachments/assets/2fd4a600-6015-42cd-935d-39ca6d9ec23b)
+> Unexpected traveling plan from [Bolton](https://en.wikipedia.org/wiki/Bolton) to London: 1-2 Initial Route ⚫, but I took 3-4 🔴
 
 **Manchester Picadilly station** represents one of the larges hub that connects South-West UK county. Once you calling [Manchester](https://en.wikipedia.org/wiki/Manchester), no matter coach or train, you instantly becoming aware of it. 
-I used to callig that place for a long time, and it used to be journeys from far away: Newcastle, and so far London (Euston train station) in this list. 
+I used to callig that place for a long time, and it used to be journeys from far away: [Newcastle Upon Tyne](https://en.wikipedia.org/wiki/Newcastle_upon_Tyne), and so far London (Euston train station) in this list. 
 Hoever, there is a known psychological effect that finds manipulative applications in certain industries and involves repretitive series of actions with the same outcome.  
 Something you're doing quite often through the same path makes you a biased person to the certain extent in the particular domain area. 
 This is what happened and you may find yourself the same way...
@@ -19,7 +20,7 @@ This is what happened and you may find yourself the same way...
 I remember one been traveling back with no delays and rush. 
 The autopilot mode on traveling, accompanied with the relaed app assistances is what basically relaxes you.
 Sometemies you may find it too suspicious and end up being confused by thinking too much or by raising a wise questions.
-The one that came up to me so far, on my two-leg trip from Bolton (Manchester suburban train) to London (Euston train station).
+The one that came up to me so far, on my two-leg trip from [Bolton](https://en.wikipedia.org/wiki/Bolton) (Manchester suburban train) to London (Euston train station).
 And the question was as follows:
 
 > *How the hell the app notifies me to take a train that goes absolutely different direction?!*
