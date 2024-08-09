@@ -5,8 +5,10 @@ description: ""
 category: POST
 tags: [UK, Traveling, Trains]
 ---
+![image](https://github.com/user-attachments/assets/8cd95c49-a3bf-48e2-8647-3739310f975e)
+> Unexpected traveling plan: 1-2 Initial Route ⚫, but I took 3-4 🔴
 
-**Manchester Picadilly station** represents one of the larges hub that connects South-West UK county. Once you calling Manchester, no matter coach or train, you instantly becoming aware of it. 
+**Manchester Picadilly station** represents one of the larges hub that connects South-West UK county. Once you calling [Manchester](https://en.wikipedia.org/wiki/Manchester), no matter coach or train, you instantly becoming aware of it. 
 I used to callig that place for a long time, and it used to be journeys from far away: Newcastle, and so far London (Euston train station) in this list. 
 Hoever, there is a known psychological effect that finds manipulative applications in certain industries and involves repretitive series of actions with the same outcome.  
 Something you're doing quite often through the same path makes you a biased person to the certain extent in the particular domain area. 
@@ -30,17 +32,17 @@ That's exacly how my journey of this post begins, accompanied by the following r
 
 Believing in confidence of the professionals helps you to cope. So I did.
 Only and after a while I realise when the bias works against me: the station is intented to be called was different... 
-Different city.
+Different city, which was [Blackburn](https://en.wikipedia.org/wiki/Blackburn)
 
 That opens the story of how I missed the train but just not entering in it.
 Accepting my failure, It was decided to came to the same officer for the related recommendations on picking another traveling route.
 As it usually happens in the UK, the officer treat the overall action happened with her assistance as a problem that bothrers her too.
-She was intended to help me and later on suggester another route: call Lancashire and travel from there to London.
+She was intended to help me and later on suggester another route: call [Preston](https://en.wikipedia.org/wiki/Preston,_Lancashire) and travel from there to London.
 
 So I did:
 
 ![photo_2024-08-09_11-55-11 (2)](https://github.com/user-attachments/assets/3ade14c0-0ea6-4457-bb9c-4f0643cb84b8)
-> Lancashire train station
+> Preston train station
 
 The good aspect is that traveling was free of charge for me 🥳
 But then you may wonder: how you can get to the South (London) with the train that has prescribed seats in tickets?
