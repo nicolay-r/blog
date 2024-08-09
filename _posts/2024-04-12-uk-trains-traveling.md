@@ -5,7 +5,7 @@ description: ""
 category: POST
 tags: [UK, Traveling, Trains]
 ---
-![image](https://github.com/user-attachments/assets/8cd95c49-a3bf-48e2-8647-3739310f975e)
+![screen_2024-08-09 13:05:40 677372](https://github.com/user-attachments/assets/4452cb3d-7a3e-4cc9-b74c-f2699b412d08)
 > Unexpected traveling plan: 1-2 Initial Route ⚫, but I took 3-4 🔴
 
 **Manchester Picadilly station** represents one of the larges hub that connects South-West UK county. Once you calling [Manchester](https://en.wikipedia.org/wiki/Manchester), no matter coach or train, you instantly becoming aware of it. 
