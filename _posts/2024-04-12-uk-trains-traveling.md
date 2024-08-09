@@ -54,4 +54,7 @@ Well, in the UK they have so-called reserved train coaches. They may refer to it
 > 📸 I took this "U" coach of the train, where anyone is free to take a sit wheereever they wish!
 
 In the end, it took me nearly extra 20 minutes delay with this trip to London.
+And the conclusion out of it is as follows:
+
+> No matter how effective your trip in your mind in terms of train logistics, you may still ended up being travel in opposite directions!
 Nonetheless the whole story and the way staff help makes me happy about service in the UK that is relatd to trains.
